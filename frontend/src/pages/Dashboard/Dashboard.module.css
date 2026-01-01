@@ -8,13 +8,13 @@
 }
 
 .dashboard h1 {
-  color: #2D3748;
+  color: #1E293B; /* Midnight slate color */
   margin-bottom: 1rem;
   font-size: 2rem;
 }
 
 .dashboard p {
-  color: #4A5568;
+  color: #1E293B; /* Midnight slate color */
   line-height: 1.6;
 }
 

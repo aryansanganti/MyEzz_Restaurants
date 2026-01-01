@@ -51,12 +51,20 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   outline: none;
-  min-height: 44px; /* Touch target requirement */
+  min-height: 32px; /* Reduced from 44px to match actual height */
   min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.toggle:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
 }
 
 .toggle.offline {
@@ -69,7 +77,7 @@
 
 .toggleSlider {
   position: absolute;
-  top: 2px;
+  top: 50%;
   left: 2px;
   width: 28px;
   height: 28px;
@@ -77,14 +85,15 @@
   border-radius: 50%;
   transition: transform 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%);
 }
 
 .toggle.online .toggleSlider {
-  transform: translateX(28px);
+  transform: translateY(-50%) translateX(28px);
 }
 
 .toggle.offline .toggleSlider {
-  transform: translateX(0);
+  transform: translateY(-50%) translateX(0);
 }
 
 /* Responsive design for tablets */
@@ -108,16 +117,21 @@
     width: 50px;
     height: 28px;
     min-width: 50px;
-    min-height: 40px;
+    min-height: 28px; /* Reduced to match actual height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .toggleSlider {
     width: 24px;
     height: 24px;
+    left: 2px;
+    transform: translateY(-50%);
   }
   
   .toggle.online .toggleSlider {
-    transform: translateX(22px);
+    transform: translateY(-50%) translateX(22px);
   }
 }
 
@@ -147,16 +161,21 @@
     width: 44px;
     height: 24px;
     min-width: 44px;
-    min-height: 36px;
+    min-height: 24px; /* Reduced to match actual height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .toggleSlider {
     width: 20px;
     height: 20px;
+    left: 2px;
+    transform: translateY(-50%);
   }
   
   .toggle.online .toggleSlider {
-    transform: translateX(20px);
+    transform: translateY(-50%) translateX(20px);
   }
 }
 
