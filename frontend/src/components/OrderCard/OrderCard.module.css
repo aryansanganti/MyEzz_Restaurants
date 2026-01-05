@@ -1,0 +1,289 @@
+/* Order Card Styles */
+.orderCard {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.orderCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Status-based styling - removed border colors */
+.newOrder {
+  /* No border styling */
+}
+
+.preparing {
+  /* No border styling */
+}
+
+.ready {
+  /* No border styling */
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.orderId {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  margin: 0;
+  color: #1e293b;
+}
+
+.statusBadge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.newOrder .statusBadge {
+  background-color: #fef2f2;
+  color: #be123c; /* text-rose-700 */
+}
+
+.preparing .statusBadge {
+  background-color: #fffbeb;
+  color: #b45309; /* text-amber-700 */
+}
+
+.ready .statusBadge {
+  background-color: #ecfdf5;
+  color: #047857; /* text-emerald-700 */
+}
+
+/* Customer Info */
+.customerInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Order Items */
+.orderItems {
+  margin-bottom: 12px;
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.quantity {
+  font-weight: 600;
+  color: #475569;
+  min-width: 24px;
+}
+
+.itemName {
+  color: #334155;
+}
+
+/* Order Total */
+.orderTotal {
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Timer */
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #fffbeb;
+  color: #b45309;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* Verification Code */
+.verificationCode {
+  background-color: #ecfdf5;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.codeLabel {
+  font-size: 12px;
+  color: #047857;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.code {
+  font-size: 24px;
+  font-weight: 800;
+  color: #047857;
+  font-family: 'Inter', monospace;
+  letter-spacing: 2px;
+}
+
+/* Card Actions */
+.cardActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Button Styles */
+.acceptBtn {
+  flex: 1;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.acceptBtn:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.acceptBtn:active {
+  transform: translateY(0);
+}
+
+.acceptBtn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.rejectBtn {
+  flex: 1;
+  background-color: transparent;
+  color: #dc2626;
+  border: 2px solid #dc2626;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rejectBtn:hover {
+  background-color: #dc2626;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.rejectBtn:active {
+  transform: translateY(0);
+}
+
+.rejectBtn:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.markReadyBtn {
+  width: 100%;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.markReadyBtn:hover {
+  background-color: #d97706;
+  transform: translateY(-1px);
+}
+
+.markReadyBtn:active {
+  transform: translateY(0);
+}
+
+.markReadyBtn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.handToRiderBtn {
+  width: 100%;
+  background-color: #047857;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.handToRiderBtn:hover {
+  background-color: #065f46;
+  transform: translateY(-1px);
+}
+
+.handToRiderBtn:active {
+  transform: translateY(0);
+}
+
+.handToRiderBtn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .orderCard {
+    padding: 12px;
+  }
+  
+  .cardActions {
+    flex-direction: column;
+  }
+  
+  .acceptBtn, .rejectBtn {
+    flex: none;
+  }
+}
