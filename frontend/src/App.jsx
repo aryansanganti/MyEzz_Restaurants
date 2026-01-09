@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Menu from './pages/Menu/Menu';
 import Report from './pages/Report/Report';
 import './App.css';
-import './styles/responsive.css';
 
 function App() {
   return (
