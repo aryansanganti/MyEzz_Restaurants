@@ -1,0 +1,200 @@
+/* Menu Item Card Styles */
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  min-height: 56px;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  border-color: #e2e8f0;
+}
+
+.card.outOfStock {
+  opacity: 0.6;
+  background-color: #fafafa;
+}
+
+/* Item Info Section */
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.itemDetails {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.price {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 16px;
+}
+
+.separator {
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+.category {
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Toggle Section */
+.toggleSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* Toggle Switch - Compact Professional Size */
+/* Override global button min-height/min-width */
+.toggle {
+  position: relative;
+  width: 44px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+  min-width: 44px !important;
+  border: none !important;
+  border-radius: 12px !important;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  outline: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3px !important;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.toggle:focus {
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+  outline: none !important;
+}
+
+.toggle:hover {
+  border-color: transparent !important;
+}
+
+.toggle:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.toggle.toggling {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.toggleOn {
+  background-color: #10b981 !important;
+}
+
+.toggleOff {
+  background-color: #94a3b8 !important;
+}
+
+.toggleSlider {
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transform: translateX(0);
+  flex-shrink: 0;
+}
+
+.toggleOn .toggleSlider {
+  transform: translateX(20px);
+}
+
+.toggle:hover .toggleSlider {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Status Label */
+.statusLabel {
+  font-size: 12px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+  order: -1;
+  line-height: 1;
+}
+
+.statusLabel.inStock {
+  color: #10b981;
+}
+
+.statusLabel.outStock {
+  color: #dc2626;
+  opacity: 1 !important;
+  font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .card {
+    padding: 10px 16px;
+    min-height: 52px;
+  }
+  
+  .itemName {
+    font-size: 15px;
+  }
+  
+  .itemDetails {
+    font-size: 13px;
+  }
+  
+  .toggle {
+    width: 40px !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+  }
+  
+  .toggleSlider {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .toggleOn .toggleSlider {
+    transform: translateX(18px);
+  }
+  
+  .statusLabel {
+    font-size: 11px;
+  }
+  
+  .toggleSection {
+    gap: 8px;
+  }
+}

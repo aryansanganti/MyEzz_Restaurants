@@ -1,0 +1,228 @@
+/* Add Item Modal Styles */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  min-height: 32px;
+  min-width: 32px;
+}
+
+.closeButton:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.closeButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Form Styles */
+.form {
+  padding: 24px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  background-color: white;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #be123c;
+  box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.1);
+}
+
+.input::placeholder {
+  color: #94a3b8;
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+/* Price Input with Rupee Symbol */
+.priceInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.priceSymbol {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.priceInput {
+  padding-left: 36px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.cancelButton,
+.submitButton {
+  flex: 1;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-height: 48px;
+}
+
+.cancelButton {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.cancelButton:hover {
+  background-color: #e2e8f0;
+}
+
+.cancelButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2);
+}
+
+.submitButton {
+  background-color: #be123c;
+  color: white;
+  box-shadow: 0 2px 4px rgba(190, 18, 60, 0.2);
+}
+
+.submitButton:hover {
+  background-color: #9f1239;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(190, 18, 60, 0.3);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .modal {
+    margin: 10px;
+    max-width: calc(100vw - 20px);
+  }
+
+  .header {
+    padding: 20px 20px 12px 20px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}
