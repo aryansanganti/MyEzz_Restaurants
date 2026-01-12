@@ -1,15 +1,8 @@
-/* Dashboard Styles - Clean UI/UX Design System */
+/* Dashboard Styles */
 .dashboard {
-  background: rgba(11, 12, 16, 0.3); /* Semi-transparent to show background */
   min-height: calc(100vh - 64px);
   width: 100%;
-  box-sizing: border-box;
   padding: 2rem;
-  font-family: 'Inter', sans-serif;
-  position: relative;
-  z-index: 2; /* Above app background */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .loadingContainer {
@@ -19,214 +12,110 @@
   justify-content: center;
   height: 60vh;
   gap: 16px;
-  position: relative;
-  z-index: 2;
 }
 
 .loadingText {
-  color: var(--color-slate-silver);
+  color: #94A3B8;
   font-size: 16px;
-  font-weight: 500;
-  margin: 0;
 }
 
 .dashboardHeader {
-  margin-bottom: 1.5rem; /* Reduced since ribbon is smaller */
-  position: relative;
-  z-index: 2;
+  margin-bottom: 1.5rem;
 }
 
 .title {
-  color: var(--color-pure-white);
+  color: #FFFFFF;
   margin: 0 0 1rem 0;
   font-size: 2rem;
   font-weight: 800;
-  font-family: 'Inter', sans-serif;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  letter-spacing: -0.02em;
 }
 
-/* Horizontal Stats Ribbon - Compact and Data-Dense */
+/* Stats Ribbon */
 .statsRibbon {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .stat {
   display: flex;
   align-items: center;
-  gap: 1rem; /* Space between number and details */
-  background: rgba(26, 28, 32, 0.4); /* More transparent to show background */
-  border: none;
+  gap: 1rem;
+  background: rgba(26, 28, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   padding: 1rem 1.5rem;
-  border-radius: 16px; /* Smaller radius for ribbon */
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  border-radius: 16px;
   flex: 1;
-  min-height: 70px; /* Compact height - 75% smaller than before */
-}
-
-.stat::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--gradient-flame);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.stat::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at center, rgba(255, 102, 0, 0.1) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: all 0.2s ease;
 }
 
 .stat:hover {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.5),
-    0 0 16px rgba(255, 102, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  border-color: rgba(255, 102, 0, 0.2);
 }
 
-.stat:hover::before {
-  opacity: 1;
-}
-
-.stat:hover::after {
-  opacity: 1;
-}
-
-/* Number on Left - Large and Prominent */
 .statNumber {
-  font-size: 2rem; /* Smaller than before but still prominent */
+  font-size: 2rem;
   font-weight: 800;
-  color: var(--color-sunset-orange);
-  letter-spacing: -0.02em;
-  position: relative;
-  z-index: 1;
-  text-shadow: 0 2px 8px rgba(255, 102, 0, 0.3);
-  flex-shrink: 0;
+  color: #FF6600;
 }
 
-/* Pulse animation for New Orders */
-.stat:first-child .statNumber {
-  animation: newOrderPulse 2s infinite;
-}
-
-@keyframes newOrderPulse {
-  0%, 100% { 
-    color: var(--color-sunset-orange);
-    text-shadow: 0 2px 8px rgba(255, 102, 0, 0.3);
-  }
-  50% { 
-    color: #FF7A1A;
-    text-shadow: 0 2px 12px rgba(255, 102, 0, 0.5);
-  }
-}
-
-/* Details on Right - Clean Label Only */
 .statDetails {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex: 1;
 }
 
 .statLabel {
   font-size: 0.875rem;
-  color: var(--color-slate-silver);
+  color: #94A3B8;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 600;
-  position: relative;
-  z-index: 1;
 }
 
-/* Enhanced Kanban Board with Better Spacing */
+/* Kanban Board */
 .kanbanBoard {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem; /* Increased gap between columns */
+  gap: 2rem;
   height: calc(100vh - 280px);
-  position: relative;
-  z-index: 2;
 }
 
 .kanbanColumn {
-  background-color: transparent;
-  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
-/* Sticky Column Headers */
 .columnHeader {
-  margin-bottom: 1.5rem; /* Increased gap from cards */
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--color-deep-obsidian);
-  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
+/* Column Title with Gradient Depth */
 .columnTitle {
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--color-pure-white);
+  color: #FFFFFF;
   margin: 0;
   padding: 1.25rem 1.5rem;
-  background: rgba(26, 28, 32, 0.5); /* More transparent to show background */
-  border: none;
-  border-radius: 20px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: linear-gradient(180deg, #1A1C20 0%, #0B0C10 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
   position: relative;
-  overflow: hidden;
-  letter-spacing: -0.01em;
-  transition: all 0.3s ease;
 }
 
-.columnTitle:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-/* Enhanced Column Status Borders */
+/* Column accent bars - thin 3px status indicators */
 .kanbanColumn:nth-child(1) .columnTitle::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: var(--gradient-flame);
-  border-radius: 20px 20px 0 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FF6600, #E65C00);
+  border-radius: 16px 16px 0 0;
 }
 
 .kanbanColumn:nth-child(2) .columnTitle::before {
@@ -235,9 +124,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #F59E0B 0%, #D97706 100%);
-  border-radius: 20px 20px 0 0;
+  height: 3px;
+  background: linear-gradient(90deg, #F59E0B, #D97706);
+  border-radius: 16px 16px 0 0;
 }
 
 .kanbanColumn:nth-child(3) .columnTitle::before {
@@ -246,26 +135,18 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-emerald-green) 0%, var(--color-emerald-glow) 100%);
-  border-radius: 20px 20px 0 0;
+  height: 3px;
+  background: linear-gradient(90deg, #14B8A6, #0D9488);
+  border-radius: 16px 16px 0 0;
 }
 
 .columnCount {
-  background: rgba(255, 102, 0, 0.2);
-  color: var(--color-sunset-orange);
+  background: rgba(255, 102, 0, 0.15);
+  color: #FF6600;
   font-size: 0.875rem;
   font-weight: 800;
   padding: 0.5rem 0.875rem;
-  border-radius: 12px;
-  min-width: 2rem;
-  text-align: center;
-  border: 1px solid rgba(255, 102, 0, 0.4);
-  box-shadow: 
-    0 4px 12px rgba(255, 102, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border-radius: 10px;
 }
 
 .columnContent {
@@ -275,66 +156,34 @@
 }
 
 .columnContent::-webkit-scrollbar {
-  width: 8px;
-}
-
-.columnContent::-webkit-scrollbar-track {
-  background: transparent;
+  width: 6px;
 }
 
 .columnContent::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--color-sunset-orange) 0%, var(--color-orange-deep) 100%);
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(255, 102, 0, 0.3);
+  background: #FF6600;
+  border-radius: 3px;
 }
 
-.columnContent::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #FF7A1A 0%, #CC5200 100%);
-}
-
-/* Enhanced Empty State */
 .emptyState {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 280px;
-  background: rgba(26, 28, 32, 0.6);
-  border-radius: 20px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border: 2px dashed rgba(255, 102, 0, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
-}
-
-.emptyState::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at center, rgba(255, 102, 0, 0.05) 0%, transparent 70%);
+  height: 200px;
+  background: rgba(26, 28, 32, 0.5);
+  border-radius: 16px;
+  border: 2px dashed rgba(255, 102, 0, 0.2);
 }
 
 .emptyState p {
-  color: var(--color-slate-silver);
+  color: #94A3B8;
   font-style: italic;
-  margin: 0;
-  font-weight: 500;
-  position: relative;
-  z-index: 1;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 1200px) {
   .kanbanBoard {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 24px;
+    height: auto;
   }
   
   .kanbanColumn:last-child {
@@ -344,95 +193,20 @@
 
 @media (max-width: 768px) {
   .dashboard {
-    padding: 16px;
+    padding: 1rem;
   }
   
   .kanbanBoard {
     grid-template-columns: 1fr;
-    gap: 20px;
-    height: auto;
+    gap: 1.5rem;
   }
   
-  .stats {
+  .statsRibbon {
     flex-wrap: wrap;
-    gap: 16px;
   }
   
   .stat {
-    flex: 1;
     min-width: 120px;
-    padding: 20px 24px;
-  }
-  
-  .title {
-    font-size: 1.75rem;
-  }
-  
-  .columnTitle {
-    padding: 16px 20px;
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 480px) {
-  .dashboard {
-    padding: 12px;
-  }
-  
-  .title {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-  }
-  
-  .stats {
-    gap: 12px;
-  }
-  
-  .stat {
-    padding: 16px 20px;
-  }
-  
-  .statNumber {
-    font-size: 24px;
-  }
-  
-  .statLabel {
-    font-size: 12px;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .kanbanBoard {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-  }
-  
-  .kanbanColumn:last-child {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard {
-    padding: 16px;
-  }
-  
-  .kanbanBoard {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    height: auto;
-  }
-  
-  .stats {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  
-  .stat {
-    flex: 1;
-    min-width: 80px;
-    padding: 12px 16px;
   }
   
   .title {
@@ -441,28 +215,11 @@
 }
 
 @media (max-width: 480px) {
-  .dashboard {
-    padding: 12px;
-  }
-  
-  .title {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-  }
-  
-  .stats {
-    gap: 8px;
-  }
-  
-  .stat {
-    padding: 8px 12px;
-  }
-  
   .statNumber {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
   
   .statLabel {
-    font-size: 11px;
+    font-size: 0.75rem;
   }
 }

@@ -52,7 +52,31 @@
 /* Global responsive reset */
 *, *::before, *::after {
   box-sizing: border-box;
-  color: var(--color-pure-white); /* Ensure all text is white by default */
+}
+
+/* Thin Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
 }
 
 html {
@@ -68,7 +92,7 @@ body {
   overflow-x: hidden;
   background-color: var(--color-deep-obsidian);
   color: var(--color-pure-white);
-  font-weight: 500; /* Default body weight */
+  font-weight: 500;
 }
 
 #root {
@@ -209,14 +233,14 @@ button {
 /* Default Button Fallback */
 button:not([class*="btn-"]) {
   background-color: var(--color-midnight-slate);
-  color: var(--color-slate-silver);
+  color: #FFFFFF;
   border: var(--border-subtle);
 }
 
 button:not([class*="btn-"]):hover {
   background-color: rgba(255, 102, 0, 0.1);
   border-color: var(--color-sunset-orange);
-  color: var(--color-pure-white);
+  color: #FFFFFF;
 }
 
 button:focus,

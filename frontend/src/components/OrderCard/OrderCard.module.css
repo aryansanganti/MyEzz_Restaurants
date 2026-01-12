@@ -1,105 +1,51 @@
-/* Order Card Styles - Clean UI/UX Design System */
+/* Order Card Styles */
 .orderCard {
-  background: rgba(26, 28, 32, 0.6); /* More transparent to show background */
-  border: none; /* Remove all default borders */
-  border-radius: 16px; /* Slightly smaller radius for cleaner look */
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: rgba(26, 28, 32, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   padding: 1.5rem;
   margin-bottom: 1.25rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
-}
-
-.orderCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orderCard > * {
-  position: relative;
-  z-index: 1;
+  transition: all 0.3s ease;
 }
 
 .orderCard:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-/* Remove default left borders - clean design */
-.newOrder {
-  /* No left border */
-}
-
-.preparing {
-  /* No left border */
-}
-
-.ready {
-  /* No left border */
-}
-
-/* Card Header with Order ID on Left, Timer Below */
+/* Card Header */
 .cardHeader {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 1.25rem;
-  position: relative;
 }
 
-/* Enhanced Order ID - Monospace Font for Technical Precision */
 .orderId {
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-weight: 800;
-  font-size: 1.75rem; /* Slightly smaller for better balance */
+  font-size: 1.75rem;
   margin: 0;
-  color: var(--color-pure-white);
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
   line-height: 1;
 }
 
-/* Timer positioned below the order ID to avoid overlap */
 .timer {
-  position: static;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-  color: var(--color-pure-white);
+  background: linear-gradient(180deg, #FBBF24 0%, #D97706 100%);
+  color: #FFFFFF;
   padding: 0.5rem 0.75rem;
   border-radius: 12px;
   font-weight: 700;
   font-size: 0.75rem;
-  box-shadow: 
-    0 2px 8px rgba(245, 158, 11, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   margin-top: 0.5rem;
-  align-self: flex-start;
-  /* Removed animation - no blink effect */
 }
 
-/* Delayed Timer - Red for Orders Over 15 Minutes */
 .timerDelayed {
-  background: linear-gradient(135deg, var(--color-crimson-red) 0%, #7F1D1D 100%) !important;
-  box-shadow: 
-    0 2px 8px rgba(153, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  /* No pulsing animation */
+  background: linear-gradient(180deg, #EF4444 0%, #B91C1C 100%) !important;
 }
 
 .statusBadge {
@@ -109,41 +55,39 @@
   border-radius: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border: none;
   margin-top: 0.5rem;
 }
 
 .newOrder .statusBadge {
   background: rgba(255, 102, 0, 0.15);
-  color: var(--color-sunset-orange);
+  color: #FF6600;
 }
 
 .preparing .statusBadge {
   background: rgba(245, 158, 11, 0.15);
-  color: #F59E0B; /* Yellow for preparing */
+  color: #F59E0B;
 }
 
 .ready .statusBadge {
   background: rgba(16, 185, 129, 0.15);
-  color: #10B981; /* Green for ready */
+  color: #10B981;
 }
 
-/* Customer Info - Properly Muted */
+/* Customer Info */
 .customerInfo {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
-  color: var(--color-slate-silver);
+  color: #94A3B8;
   font-size: 0.875rem;
-  font-weight: 500;
 }
 
 .customerName {
-  color: rgba(148, 163, 184, 0.6); /* More muted */
+  color: rgba(148, 163, 184, 0.6);
 }
 
-/* Enhanced Order Items with Checkboxes */
+/* Order Items */
 .orderItems {
   margin-bottom: 1.25rem;
 }
@@ -154,55 +98,65 @@
   gap: 0.75rem;
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.itemChecked {
+  background: rgba(255, 255, 255, 0.03);
+  opacity: 0.5;
 }
 
 .itemCheckbox {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--color-slate-silver);
-  border-radius: 3px;
-  background: transparent;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  border: 2px solid #64748B !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+  padding: 0 !important;
 }
 
 .itemCheckbox:hover {
-  border-color: var(--color-emerald-green);
-  background: rgba(16, 185, 129, 0.1);
+  border-color: #10B981 !important;
+  background: rgba(16, 185, 129, 0.1) !important;
 }
 
 .itemCheckbox.checked {
-  background: var(--color-emerald-green);
-  border-color: var(--color-emerald-green);
-  color: var(--color-pure-white);
+  background: #10B981 !important;
+  border-color: #10B981 !important;
+  color: #FFFFFF;
 }
 
 .quantity {
   font-weight: 800;
-  color: var(--color-sunset-orange);
+  color: #FF6600;
   min-width: 1.5rem;
-  font-size: 0.875rem;
 }
 
 .itemName {
-  color: var(--color-pure-white);
+  color: #FFFFFF;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .strikethrough {
   text-decoration: line-through;
-  opacity: 0.5;
+  opacity: 0.4;
+  color: #64748B;
 }
 
-/* Clean Total Price */
+/* Order Total */
 .orderTotal {
   font-size: 1.125rem;
-  color: var(--color-pure-white);
+  color: #FFFFFF;
   margin-bottom: 1.25rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -210,61 +164,57 @@
 }
 
 .orderTotal strong {
-  color: var(--color-emerald-green);
+  color: #10B981;
   font-weight: 700;
 }
 
-/* Clean Verification Code */
+/* Verification Code */
 .verificationCode {
-  background: rgba(16, 185, 129, 0.1);
-  padding: 1rem;
+  background: #042F2E;
+  padding: 1.25rem;
   border-radius: 12px;
   text-align: center;
   margin-bottom: 1.25rem;
-  border: 2px dashed rgba(16, 185, 129, 0.3);
-  box-shadow: 
-    0 2px 8px rgba(16, 185, 129, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(16, 185, 129, 0.4);
 }
 
 .codeLabel {
-  font-size: 0.75rem;
-  color: var(--color-emerald-green);
-  font-weight: 600;
+  font-size: 0.65rem;
+  color: #34D399;
+  font-weight: 700;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
 }
 
 .code {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  color: var(--color-emerald-green);
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-  letter-spacing: 0.25rem;
-  text-shadow: 0 1px 4px rgba(16, 185, 129, 0.3);
+  color: #34D399;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.4rem;
+  text-shadow: 0 0 20px rgba(52, 211, 153, 0.5);
 }
 
-/* Clean Action Buttons */
+/* Action Buttons */
 .cardActions {
   display: flex;
   gap: 0.75rem;
   margin-top: 1.25rem;
 }
 
-/* Accept Button - Green with Hologram Slide Effect */
+/* Accept Button - Original Green Gradient with Hologram */
 .acceptBtn {
   flex: 2;
-  background: var(--color-emerald-green);
-  color: var(--color-pure-white) !important;
-  border: none;
+  background: linear-gradient(180deg, #34D399 0%, #10B981 50%, #059669 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
   padding: 0.875rem 1.25rem;
   border-radius: 12px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -276,7 +226,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s ease;
 }
 
@@ -285,68 +235,66 @@
 }
 
 .acceptBtn:hover {
-  background: var(--color-emerald-glow);
-  color: var(--color-pure-white) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(180deg, #6EE7B7 0%, #34D399 50%, #10B981 100%) !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
 }
 
-/* Reject Button - Red with Hologram Slide Effect */
+/* Reject Button - Ghost Red with Slide Fill */
 .rejectBtn {
   flex: 1;
-  background: var(--color-crimson-red);
-  color: var(--color-pure-white) !important;
-  border: none;
+  background: transparent !important;
+  color: #F87171 !important;
+  border: 1px solid #F87171 !important;
   padding: 0.875rem 1rem;
   border-radius: 12px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(153, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .rejectBtn::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
+  left: 0;
+  width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.rejectBtn:hover::before {
-  left: 100%;
+  background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
+  transition: width 0.3s ease;
+  z-index: -1;
+  border-radius: 11px;
 }
 
 .rejectBtn:hover {
-  background: #7F1D1D;
-  color: var(--color-pure-white) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(153, 0, 0, 0.4);
+  color: #FFFFFF !important;
+  border-color: #EF4444 !important;
+  background: transparent !important;
 }
 
-/* Mark Ready Button - Orange with Hologram Slide Effect */
+.rejectBtn:hover::before {
+  width: 100%;
+}
+
+/* Mark Ready Button - Orange Gradient with Hologram */
 .markReadyBtn {
   width: 100%;
-  background: linear-gradient(135deg, #FF6600 0%, #E65C00 100%);
-  color: var(--color-pure-white) !important;
-  border: none;
+  background: linear-gradient(180deg, #FB923C 0%, #F97316 50%, #EA580C 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
   padding: 1rem 1.25rem;
   border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 2px 8px rgba(255, 102, 0, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -358,7 +306,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s ease;
 }
 
@@ -367,25 +315,22 @@
 }
 
 .markReadyBtn:hover {
-  background: linear-gradient(135deg, #FF7A1A 0%, #CC5200 100%);
-  color: var(--color-pure-white) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+  background: linear-gradient(180deg, #FDBA74 0%, #FB923C 50%, #F97316 100%) !important;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
 }
 
-/* Hand to Rider Button - Green with Hologram Slide Effect */
+/* Hand to Rider Button - Green Gradient with Hologram */
 .handToRiderBtn {
   width: 100%;
-  background: var(--color-emerald-green);
-  color: var(--color-pure-white) !important;
-  border: none;
+  background: linear-gradient(180deg, #6EE7B7 0%, #34D399 50%, #10B981 100%) !important;
+  color: #065F46 !important;
+  border: none !important;
   padding: 1rem 1.25rem;
   border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -397,7 +342,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
   transition: left 0.5s ease;
 }
 
@@ -406,40 +351,22 @@
 }
 
 .handToRiderBtn:hover {
-  background: var(--color-emerald-glow);
-  color: var(--color-pure-white) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(180deg, #A7F3D0 0%, #6EE7B7 50%, #34D399 100%) !important;
+  box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
   .orderCard {
     padding: 1.25rem;
-    margin-bottom: 1rem;
   }
   
   .orderId {
     font-size: 1.5rem;
   }
   
-  .timer {
-    position: static;
-    margin-top: 0.75rem;
-    align-self: flex-start;
-  }
-  
-  .cardHeader {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
   .cardActions {
     flex-direction: column;
     gap: 0.5rem;
-  }
-  
-  .acceptBtn, .rejectBtn {
-    flex: none;
   }
 }

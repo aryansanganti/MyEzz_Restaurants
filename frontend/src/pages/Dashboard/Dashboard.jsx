@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import OrderCard from '../../components/OrderCard/OrderCard';
 import PrepTimeModal from '../../components/PrepTimeModal/PrepTimeModal';
 import RingSpinner from '../../components/Spinner/Spinner';
@@ -10,13 +11,9 @@ function Dashboard() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Generate mock orders on component mount
   useEffect(() => {
-    // Simulate API loading delay
     const loadOrders = async () => {
       setLoading(true);
-      
-      // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       const mockOrders = [
@@ -41,7 +38,7 @@ function Dashboard() {
           total: 185.00,
           status: 'preparing',
           prepTime: 25,
-          acceptedAt: new Date(Date.now() - 5 * 60 * 1000), // 5 minutes ago
+          acceptedAt: new Date(Date.now() - 5 * 60 * 1000),
           verificationCode: generateVerificationCode()
         },
         {
@@ -86,12 +83,7 @@ function Dashboard() {
     if (selectedOrder) {
       setOrders(orders.map(order => 
         order.id === selectedOrder.id 
-          ? { 
-              ...order, 
-              status: 'preparing', 
-              prepTime,
-              acceptedAt: new Date()
-            }
+          ? { ...order, status: 'preparing', prepTime, acceptedAt: new Date() }
           : order
       ));
     }
@@ -100,9 +92,7 @@ function Dashboard() {
 
   const handleMarkReady = (orderId) => {
     setOrders(orders.map(order => 
-      order.id === orderId 
-        ? { ...order, status: 'ready' }
-        : order
+      order.id === orderId ? { ...order, status: 'ready' } : order
     ));
   };
 
@@ -114,7 +104,13 @@ function Dashboard() {
   const preparingOrders = orders.filter(order => order.status === 'preparing');
   const readyOrders = orders.filter(order => order.status === 'ready');
 
-  // Show loading spinner while fetching orders
+  // Card animation variants
+  const cardVariants = {
+    initial: { opacity: 0, y: 20, scale: 0.95 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
+  };
+
   if (loading) {
     return (
       <div className={styles.dashboard}>
@@ -161,14 +157,25 @@ function Dashboard() {
             </h2>
           </div>
           <div className={styles.columnContent}>
-            {newOrders.map(order => (
-              <OrderCard
-                key={order.id}
-                order={order}
-                onAccept={handleAcceptOrder}
-                onReject={handleRejectOrder}
-              />
-            ))}
+            <AnimatePresence mode="popLayout">
+              {newOrders.map(order => (
+                <motion.div
+                  key={order.id}
+                  layout
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                >
+                  <OrderCard
+                    order={order}
+                    onAccept={handleAcceptOrder}
+                    onReject={handleRejectOrder}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {newOrders.length === 0 && (
               <div className={styles.emptyState}>
                 <p>No new orders</p>
@@ -185,13 +192,24 @@ function Dashboard() {
             </h2>
           </div>
           <div className={styles.columnContent}>
-            {preparingOrders.map(order => (
-              <OrderCard
-                key={order.id}
-                order={order}
-                onMarkReady={handleMarkReady}
-              />
-            ))}
+            <AnimatePresence mode="popLayout">
+              {preparingOrders.map(order => (
+                <motion.div
+                  key={order.id}
+                  layout
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                >
+                  <OrderCard
+                    order={order}
+                    onMarkReady={handleMarkReady}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {preparingOrders.length === 0 && (
               <div className={styles.emptyState}>
                 <p>No orders in preparation</p>
@@ -208,13 +226,24 @@ function Dashboard() {
             </h2>
           </div>
           <div className={styles.columnContent}>
-            {readyOrders.map(order => (
-              <OrderCard
-                key={order.id}
-                order={order}
-                onHandToRider={handleHandToRider}
-              />
-            ))}
+            <AnimatePresence mode="popLayout">
+              {readyOrders.map(order => (
+                <motion.div
+                  key={order.id}
+                  layout
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                >
+                  <OrderCard
+                    order={order}
+                    onHandToRider={handleHandToRider}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {readyOrders.length === 0 && (
               <div className={styles.emptyState}>
                 <p>No orders ready</p>

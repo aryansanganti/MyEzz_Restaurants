@@ -107,7 +107,10 @@ const OrderCard = ({ order, onAccept, onReject, onMarkReady, onHandToRider }) =>
       {/* Enhanced Order Items with Checkboxes */}
       <div className={styles.orderItems}>
         {order.items.map((item, index) => (
-          <div key={index} className={styles.orderItem}>
+          <div 
+            key={index} 
+            className={`${styles.orderItem} ${checkedItems.has(index) ? styles.itemChecked : ''}`}
+          >
             {order.status === 'preparing' && (
               <button
                 className={`${styles.itemCheckbox} ${checkedItems.has(index) ? styles.checked : ''}`}

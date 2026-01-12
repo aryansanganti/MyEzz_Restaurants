@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { RestaurantProvider } from './context/RestaurantContext';
 import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Menu from './pages/Menu/Menu';
 import Report from './pages/Report/Report';
@@ -26,6 +27,7 @@ function AppLayout() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/report" element={<Report />} />
         </Routes>
+        <Footer />
       </main>
     </div>
   );

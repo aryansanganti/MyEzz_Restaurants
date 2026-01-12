@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Search, Plus } from 'lucide-react';
 import MenuItemCard from '../../components/MenuItemCard/MenuItemCard';
 import AddItemModal from '../../components/AddItemModal/AddItemModal';
+import Toast from '../../components/Toast/Toast';
 import { mockMenuItems } from '../../data/mockMenu';
 import { CATEGORIES, STATUS_TABS } from '../../types/menu';
 import styles from './Menu.module.css';
@@ -12,6 +13,7 @@ function Menu() {
   const [selectedCategory, setSelectedCategory] = useState(CATEGORIES.ALL);
   const [activeTab, setActiveTab] = useState(STATUS_TABS.ALL);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [toast, setToast] = useState({ isVisible: false, message: '' });
 
   // Get all unique categories
   const categories = [
@@ -71,6 +73,11 @@ function Menu() {
 
     setMenuItems(prevItems => [...prevItems, newItem]);
     setIsAddModalOpen(false);
+    setToast({ isVisible: true, message: `"${newItemData.name}" added to menu!` });
+  };
+
+  const closeToast = () => {
+    setToast({ isVisible: false, message: '' });
   };
 
   return (
@@ -174,6 +181,13 @@ function Menu() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onAdd={handleAddItem}
+      />
+
+      {/* Toast Notification */}
+      <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        onClose={closeToast}
       />
     </div>
   );
