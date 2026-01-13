@@ -125,7 +125,7 @@ function Dashboard() {
   return (
     <div className={styles.dashboard}>
       <div className={styles.dashboardHeader}>
-        <h1 className={styles.title}>Kitchen Dashboard</h1>
+        <h1 className={styles.title}>Orders</h1> {/* Changed from Kitchen Dashboard to Orders */}
         <div className={styles.statsRibbon}>
           <div className={styles.stat}>
             <span className={styles.statNumber}>{newOrders.length}</span>

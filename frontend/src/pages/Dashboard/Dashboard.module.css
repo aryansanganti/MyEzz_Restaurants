@@ -1,8 +1,8 @@
-/* Dashboard Styles */
+/* Dashboard Styles - Fixed for proper footer flow */
 .dashboard {
-  min-height: calc(100vh - 64px);
   width: 100%;
   padding: 2rem;
+  flex: 1; /* Allow it to grow and push footer down */
 }
 
 .loadingContainer {
@@ -73,12 +73,12 @@
   font-weight: 600;
 }
 
-/* Kanban Board */
+/* Kanban Board - Flexible height for content flow */
 .kanbanBoard {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
-  height: calc(100vh - 280px);
+  min-height: 500px; /* Minimum height instead of fixed */
 }
 
 .kanbanColumn {

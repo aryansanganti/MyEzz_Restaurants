@@ -8,9 +8,9 @@ const Navbar = () => {
   const navigationItems = [
     {
       path: '/',
-      name: 'Dashboard',
+      name: 'Orders', // Changed from Dashboard to Orders
       icon: Home,
-      ariaLabel: 'Navigate to Dashboard'
+      ariaLabel: 'Navigate to Orders'
     },
     {
       path: '/menu',
@@ -20,9 +20,9 @@ const Navbar = () => {
     },
     {
       path: '/report',
-      name: 'Report',
+      name: 'Dashboard', // Changed from Report to Dashboard
       icon: BarChart3,
-      ariaLabel: 'Navigate to Report'
+      ariaLabel: 'Navigate to Dashboard'
     }
   ];
 
