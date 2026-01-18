@@ -27,13 +27,13 @@
 .totalUsers {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1E293B;
+    color: var(--color-pure-white);
     line-height: 1;
 }
 
 .totalLabel {
     font-size: 0.7rem;
-    color: #64748B;
+    color: var(--color-slate-silver);
     text-transform: uppercase;
     font-weight: 600;
 }
@@ -55,7 +55,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #64748B;
+    color: var(--color-slate-silver);
     font-weight: 500;
 }
 
@@ -67,12 +67,12 @@
 
 .rowValue {
     font-weight: 600;
-    color: #1E293B;
+    color: var(--color-pure-white);
 }
 
 .divider {
     height: 1px;
-    background: #E2E8F0;
+    background: var(--border-subtle);
     margin: 0.25rem 0;
 }
 
@@ -84,7 +84,7 @@
 
 .avgLabel {
     font-size: 0.85rem;
-    color: #94A3B8;
+    color: var(--color-slate-silver);
     font-weight: 500;
 }
 

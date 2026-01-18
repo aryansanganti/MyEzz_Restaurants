@@ -1,5 +1,5 @@
 .noData {
-    color: #94A3B8;
+    color: var(--color-slate-silver);
     text-align: center;
     padding: 2rem;
     font-size: 0.9rem;
@@ -15,21 +15,21 @@
 }
 
 .tooltip {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #E2E8F0;
+    background: var(--color-midnight-slate);
+    border: var(--border-subtle);
     padding: 8px 12px;
     border-radius: 6px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-elevated);
     font-size: 0.85rem;
 }
 
 .label {
-    color: #64748B;
+    color: var(--color-slate-silver);
     margin: 0 0 4px 0;
     font-weight: 500;
 }
 
 .value {
-    color: #1E293B;
+    color: var(--color-pure-white);
     margin: 0;
 }

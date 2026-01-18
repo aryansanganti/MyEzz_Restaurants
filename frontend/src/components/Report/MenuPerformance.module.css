@@ -13,8 +13,8 @@
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    background: white;
-    border: 1px solid #F1F5F9;
+    background: rgba(255, 255, 255, 0.02);
+    border: var(--border-subtle);
 }
 
 .progressFill {
@@ -22,8 +22,8 @@
     top: 0;
     left: 0;
     height: 100%;
-    background: #EFF6FF;
-    /* Very light blue */
+    background: rgba(255, 255, 255, 0.05);
+    /* Subtle highlight */
     z-index: 1;
     transition: width 1s ease-out;
 }
@@ -39,7 +39,7 @@
 .rank {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #CBD5E1;
+    color: var(--color-slate-silver);
     width: 32px;
 }
 
@@ -62,24 +62,24 @@
 .name {
     font-size: 0.95rem;
     font-weight: 600;
-    color: #1E293B;
+    color: var(--color-pure-white);
     margin: 0;
 }
 
 .subtext {
     font-size: 0.8rem;
-    color: #64748B;
+    color: var(--color-slate-silver);
     margin: 2px 0 0 0;
 }
 
 .revenue {
     font-weight: 600;
-    color: #3B82F6;
+    color: var(--color-sunset-orange);
     font-size: 0.95rem;
 }
 
 .noData {
-    color: #94A3B8;
+    color: var(--color-slate-silver);
     text-align: center;
     padding: 2rem;
     font-size: 0.9rem;

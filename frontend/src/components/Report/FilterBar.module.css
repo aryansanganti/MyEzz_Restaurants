@@ -9,10 +9,12 @@
 
 .rangeSelector {
     display: flex;
-    background: #E2E8F0;
+    background: rgba(255, 255, 255, 0.05);
+    /* Subtle dark glass */
     padding: 4px;
     border-radius: 12px;
     gap: 2px;
+    border: var(--border-subtle);
 }
 
 .filterBtn {
@@ -22,21 +24,22 @@
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 500;
-    color: #64748B;
+    color: var(--color-slate-silver);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .filterBtn:hover {
-    color: #1E293B;
-    background: rgba(255, 255, 255, 0.5);
+    color: var(--color-pure-white);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .filterBtn.active {
-    background: white;
-    color: #0F172A;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    background: var(--color-midnight-slate);
+    color: var(--color-pure-white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     font-weight: 600;
+    border: var(--border-subtle);
 }
 
 .actions {
@@ -50,9 +53,9 @@
     gap: 0.5rem;
     padding: 8px 16px;
     border-radius: 10px;
-    border: 1px solid #E2E8F0;
-    background: white;
-    color: #475569;
+    border: var(--border-subtle);
+    background: var(--color-midnight-slate);
+    color: var(--color-slate-silver);
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
@@ -60,21 +63,22 @@
 }
 
 .actionBtn:hover {
-    background: #F8FAFC;
-    border-color: #CBD5E1;
-    color: #1E293B;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-slate-silver);
+    color: var(--color-pure-white);
 }
 
 .exportBtn {
-    background: #0F172A;
-    border-color: #0F172A;
-    color: white;
+    background: var(--color-pure-white);
+    border-color: var(--color-pure-white);
+    color: var(--color-deep-obsidian);
+    font-weight: 600;
 }
 
 .exportBtn:hover {
-    background: #1E293B;
-    border-color: #1E293B;
-    color: white;
+    background: #E2E8F0;
+    border-color: #E2E8F0;
+    color: var(--color-pure-black);
     transform: translateY(-1px);
 }
 

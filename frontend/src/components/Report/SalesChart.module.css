@@ -4,9 +4,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #94A3B8;
-    background: #F8FAFC;
+    color: var(--color-slate-silver);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
+    border: var(--border-subtle);
 }
 
 .chartContainer {
@@ -15,17 +16,17 @@
 }
 
 .tooltip {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #E2E8F0;
+    background: var(--color-midnight-slate);
+    border: var(--border-subtle);
     padding: 12px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4px);
+    box-shadow: var(--shadow-elevated);
+    backdrop-filter: blur(8px);
 }
 
 .tooltipLabel {
     font-weight: 600;
-    color: #1E293B;
+    color: var(--color-pure-white);
     margin-bottom: 8px;
     font-size: 0.9rem;
 }
@@ -48,13 +49,13 @@
 }
 
 .tooltipText {
-    color: #475569;
+    color: var(--color-slate-silver);
     font-size: 0.85rem;
     margin: 0;
 }
 
 .tooltipText strong {
-    color: #1E293B;
+    color: var(--color-pure-white);
     font-weight: 600;
 }
 
