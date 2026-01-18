@@ -19,12 +19,12 @@ function CustomerInsights({ data }) {
     return (
         <div className={styles.container}>
             <div className={styles.chartSection}>
-                <ResponsiveContainer width="100%" height={140}>
+                <ResponsiveContainer width="100%" height={180}>
                     <PieChart>
                         <Pie
                             data={chartData}
-                            innerRadius={45}
-                            outerRadius={60}
+                            innerRadius={60}
+                            outerRadius={80}
                             paddingAngle={5}
                             dataKey="value"
                         >

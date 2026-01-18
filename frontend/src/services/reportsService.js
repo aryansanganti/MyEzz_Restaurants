@@ -28,10 +28,11 @@ export const reportsService = {
 
     /**
      * Fetch Order Funnel Statistics
+     * @param {string} range - 'today', 'yesterday', '7days', '30days'
      */
-    async fetchOrderStats() {
+    async fetchOrderStats(range = '7days') {
         try {
-            const response = await api.get('/api/reports/orders');
+            const response = await api.get(`/api/reports/orders?range=${range}`);
             return response.data.data;
         } catch (error) {
             console.error('Error fetching order stats:', error);
@@ -41,10 +42,11 @@ export const reportsService = {
 
     /**
      * Fetch Menu Performance (Top Selling Items)
+     * @param {string} range - 'today', 'yesterday', '7days', '30days'
      */
-    async fetchMenuPerformance() {
+    async fetchMenuPerformance(range = '7days') {
         try {
-            const response = await api.get('/api/reports/menu');
+            const response = await api.get(`/api/reports/menu?range=${range}`);
             return response.data.data;
         } catch (error) {
             console.error('Error fetching menu performance:', error);
@@ -54,10 +56,11 @@ export const reportsService = {
 
     /**
      * Fetch Busy Hours (Heatmap)
+     * @param {string} range - 'today', 'yesterday', '7days', '30days'
      */
-    async fetchBusyHours() {
+    async fetchBusyHours(range = '7days') {
         try {
-            const response = await api.get('/api/reports/heatmap');
+            const response = await api.get(`/api/reports/heatmap?range=${range}`);
             return response.data.data;
         } catch (error) {
             console.error('Error fetching heatmap data:', error);
@@ -67,10 +70,11 @@ export const reportsService = {
 
     /**
      * Fetch Customer Insights
+     * @param {string} range - 'today', 'yesterday', '7days', '30days'
      */
-    async fetchCustomerInsights() {
+    async fetchCustomerInsights(range = '7days') {
         try {
-            const response = await api.get('/api/reports/customers');
+            const response = await api.get(`/api/reports/customers?range=${range}`);
             return response.data.data;
         } catch (error) {
             console.error('Error fetching customer insights:', error);

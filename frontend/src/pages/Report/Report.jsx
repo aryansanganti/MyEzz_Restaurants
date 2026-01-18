@@ -35,10 +35,10 @@ function Report() {
           insights
         ] = await Promise.all([
           reportsService.fetchSalesData(timeRange),
-          reportsService.fetchOrderStats(),
-          reportsService.fetchMenuPerformance(),
-          reportsService.fetchBusyHours(),
-          reportsService.fetchCustomerInsights(),
+          reportsService.fetchOrderStats(timeRange),
+          reportsService.fetchMenuPerformance(timeRange),
+          reportsService.fetchBusyHours(timeRange),
+          reportsService.fetchCustomerInsights(timeRange),
           reportsService.fetchAutoInsights()
         ]);
 

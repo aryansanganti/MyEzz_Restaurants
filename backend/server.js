@@ -131,6 +131,32 @@ app.listen(PORT, () => {
     // ... rest of startup log
 });
 
+// Helper: Get Date Range for Supabase Queries
+const getDateRange = (range) => {
+    const now = new Date();
+    const end = new Date(now);
+    end.setHours(23, 59, 59, 999); // End of today (or relative range end)
+
+    const start = new Date(now);
+
+    if (range === 'today') {
+        start.setHours(0, 0, 0, 0);
+    } else if (range === 'yesterday') {
+        start.setDate(start.getDate() - 1);
+        start.setHours(0, 0, 0, 0);
+        end.setDate(end.getDate() - 1);
+        end.setHours(23, 59, 59, 999);
+    } else if (range === '7days') {
+        start.setDate(start.getDate() - 7);
+        start.setHours(0, 0, 0, 0);
+    } else if (range === '30days') {
+        start.setDate(start.getDate() - 30);
+        start.setHours(0, 0, 0, 0);
+    }
+
+    return { start: start.toISOString(), end: end.toISOString() };
+};
+
 
 // Get today's metrics (Centralized Calculation)
 app.get('/api/metrics/today', async (req, res) => {
@@ -338,8 +364,47 @@ app.get('/api/reports/sales', async (req, res) => {
 
             res.json({ success: true, data });
         } else {
-            // ... Real DB implementations would go here
-            res.json({ success: true, data: [] });
+            const { start, end } = getDateRange(range);
+
+            // Fetch orders for the range
+            const { data: orders, error } = await supabase
+                .from('orders')
+                .select('total, created_at')
+                .gte('created_at', start)
+                .lte('created_at', end)
+                .order('created_at', { ascending: true });
+
+            if (error) throw error;
+
+            // Group by date or hour depending on range
+            // For 'today'/'yesterday', we might want hourly. For others, daily.
+            // But frontend SalesChart expects array of objects with 'date' (or 'time') and 'sales', 'orders'.
+
+            if (range === 'today' || range === 'yesterday') {
+                // Hourly aggregation
+                // Initialize 9AM to 9PM (or full 24h?) - Mock data does 9-9. Let's do generic map.
+                // Actually frontend chart handles whatever it gets? 
+                // Let's just group by hour.
+                const hourlyMap = {};
+                orders.forEach(o => {
+                    const h = new Date(o.created_at).getHours();
+                    const label = `${h}:00`; // Simple label
+                    if (!hourlyMap[label]) hourlyMap[label] = { time: label, sales: 0, orders: 0 };
+                    hourlyMap[label].sales += parseFloat(o.total);
+                    hourlyMap[label].orders += 1;
+                });
+                res.json({ success: true, data: Object.values(hourlyMap) });
+            } else {
+                // Daily aggregation
+                const dailyMap = {};
+                orders.forEach(o => {
+                    const d = new Date(o.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    if (!dailyMap[d]) dailyMap[d] = { date: d, sales: 0, orders: 0 };
+                    dailyMap[d].sales += parseFloat(o.total);
+                    dailyMap[d].orders += 1;
+                });
+                res.json({ success: true, data: Object.values(dailyMap) });
+            }
         }
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
@@ -348,69 +413,307 @@ app.get('/api/reports/sales', async (req, res) => {
 
 // 2. Order Stats
 app.get('/api/reports/orders', async (req, res) => {
-    // In real app: SQL COUNT(*) queries
-    res.json({
-        success: true,
-        data: {
-            received: 154,
-            accepted: 142,
-            rejected: 8,
-            cancelled: 4,
-            avgPrepTime: '18 min',
-            completionRate: 92
+    try {
+        const { range } = req.query;
+
+        // Simulate different stats based on range
+        if (useMockData) {
+            let factor = 1;
+            if (range === 'today') factor = 0.15; // Small numbers for today
+            else if (range === 'yesterday') factor = 0.14;
+            else if (range === '7days') factor = 1;
+            else if (range === '30days') factor = 4.2;
+
+            res.json({
+                success: true,
+                data: {
+                    received: Math.floor(154 * factor),
+                    accepted: Math.floor(142 * factor),
+                    rejected: Math.floor(8 * factor),
+                    cancelled: Math.floor(4 * factor),
+                    avgPrepTime: '18 min',
+                    completionRate: 92
+                }
+            });
+        } else {
+            const { start, end } = getDateRange(range);
+
+            // Count by status
+            const { data: orders, error } = await supabase
+                .from('orders')
+                .select('status, prep_time')
+                .gte('created_at', start)
+                .lte('created_at', end);
+
+            if (error) throw error;
+
+            const stats = {
+                received: 0,
+                accepted: 0,
+                rejected: 0,
+                cancelled: 0,
+                totalPrepTime: 0,
+                prepCount: 0
+            };
+
+            orders.forEach(o => {
+                stats.received++;
+                if (['preparing', 'ready', 'completed', 'delivered'].includes(o.status)) stats.accepted++;
+                if (o.status === 'rejected') stats.rejected++;
+                if (o.status === 'cancelled') stats.cancelled++;
+
+                if (o.prep_time) {
+                    stats.totalPrepTime += o.prep_time;
+                    stats.prepCount++;
+                }
+            });
+
+            // Calculate metrics
+            const avgPrepTime = stats.prepCount > 0 ? Math.round(stats.totalPrepTime / stats.prepCount) + ' min' : '0 min';
+            const completionRate = stats.received > 0 ? Math.round((stats.accepted / stats.received) * 100) : 0;
+
+            res.json({
+                success: true,
+                data: {
+                    received: stats.received,
+                    accepted: stats.accepted,
+                    rejected: stats.rejected,
+                    cancelled: stats.cancelled,
+                    avgPrepTime,
+                    completionRate
+                }
+            });
         }
-    });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 3. Menu Performance
 app.get('/api/reports/menu', async (req, res) => {
-    res.json({
-        success: true,
-        data: {
-            topItems: [
-                { name: 'Paneer Butter Masala', orders: 145, revenue: 36250 },
-                { name: 'Chicken Biryani', orders: 132, revenue: 39600 },
-                { name: 'Garlic Naan', orders: 210, revenue: 10500 },
-                { name: 'Butter Chicken', orders: 98, revenue: 29400 },
-                { name: 'Veg Hakka Noodles', orders: 85, revenue: 15300 }
-            ],
-            leastItems: [
-                { name: 'Plain Rice', orders: 12, revenue: 1200 },
-                { name: 'Green Salad', orders: 8, revenue: 960 },
-                { name: 'Raita', orders: 5, revenue: 250 }
-            ]
+    try {
+        const { range } = req.query;
+
+        if (useMockData) {
+            // ... mock logic ...
+            let factor = 1;
+            if (range === 'today') factor = 0.2;
+            else if (range === 'yesterday') factor = 0.18;
+            else if (range === '30days') factor = 4;
+
+            const scale = (val) => Math.floor(val * factor);
+
+            res.json({
+                success: true,
+                data: {
+                    topItems: [
+                        { name: 'Paneer Butter Masala', orders: scale(145), revenue: scale(36250) },
+                        { name: 'Chicken Biryani', orders: scale(132), revenue: scale(39600) },
+                        { name: 'Garlic Naan', orders: scale(210), revenue: scale(10500) },
+                        { name: 'Butter Chicken', orders: scale(98), revenue: scale(29400) },
+                        { name: 'Veg Hakka Noodles', orders: scale(85), revenue: scale(15300) }
+                    ],
+                    leastItems: [
+                        { name: 'Plain Rice', orders: scale(12), revenue: scale(1200) },
+                        { name: 'Green Salad', orders: scale(8), revenue: scale(960) },
+                        { name: 'Raita', orders: scale(5), revenue: scale(250) }
+                    ]
+                }
+            });
+        } else {
+            const { start, end } = getDateRange(range);
+
+            // We need to fetch items from orders
+            // Assuming 'items' column is JSONB array: [{name: "...", quantity: 1, price: 100}, ...]
+            const { data: orders, error } = await supabase
+                .from('orders')
+                .select('items, total') // items is crucial here
+                .gte('created_at', start)
+                .lte('created_at', end);
+
+            if (error) throw error;
+
+            const itemStats = {};
+
+            orders.forEach(order => {
+                if (Array.isArray(order.items)) {
+                    order.items.forEach(item => {
+                        const name = item.name;
+                        const price = item.price || 0; // Assuming price is in item, or derived?
+                        // If price isn't in item, we might need a menu table. Assuming rudimentary structure for now.
+                        // Or we can approximate revenue if not available.
+                        // For this fallback, let's assume we can get quantity.
+
+                        if (!itemStats[name]) itemStats[name] = { name, orders: 0, revenue: 0 };
+                        itemStats[name].orders += (item.quantity || 1);
+                        // Revenue approximation if price exists, else mock/skip
+                        if (item.price) itemStats[name].revenue += (item.price * (item.quantity || 1));
+                    });
+                }
+            });
+
+            const allItems = Object.values(itemStats);
+            allItems.sort((a, b) => b.orders - a.orders); // Sort by orders (popularity)
+
+            const topItems = allItems.slice(0, 5);
+            const leastItems = allItems.slice(-5).reverse();
+
+            res.json({
+                success: true,
+                data: {
+                    topItems,
+                    leastItems
+                }
+            });
         }
-    });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 4. Busy Hours (Heatmap)
 app.get('/api/reports/heatmap', async (req, res) => {
-    res.json({
-        success: true,
-        data: [
-            { name: '12 PM', value: 40 },
-            { name: '1 PM', value: 85 },
-            { name: '2 PM', value: 60 },
-            { name: '3 PM', value: 20 },
-            { name: '7 PM', value: 50 },
-            { name: '8 PM', value: 100 },
-            { name: '9 PM', value: 90 },
-            { name: '10 PM', value: 45 },
-        ]
-    });
+    try {
+        const { range } = req.query;
+
+        if (useMockData) {
+            // ... mock logic ...
+            if (range === 'today') {
+                res.json({
+                    success: true,
+                    data: [
+                        { name: '12 PM', value: 20 }, { name: '1 PM', value: 45 },
+                        { name: '2 PM', value: 30 }, { name: '3 PM', value: 10 },
+                        { name: '7 PM', value: 60 }, { name: '8 PM', value: 80 },
+                        { name: '9 PM', value: 50 }, { name: '10 PM', value: 20 }
+                    ]
+                });
+                return;
+            }
+
+            res.json({
+                success: true,
+                data: [
+                    { name: '12 PM', value: 40 },
+                    { name: '1 PM', value: 85 },
+                    { name: '2 PM', value: 60 },
+                    { name: '3 PM', value: 20 },
+                    { name: '7 PM', value: 50 },
+                    { name: '8 PM', value: 100 },
+                    { name: '9 PM', value: 90 },
+                    { name: '10 PM', value: 45 },
+                ]
+            });
+        } else {
+            const { start, end } = getDateRange(range);
+
+            const { data: orders, error } = await supabase
+                .from('orders')
+                .select('created_at')
+                .gte('created_at', start)
+                .lte('created_at', end);
+
+            if (error) throw error;
+
+            const hoursMap = {};
+            orders.forEach(o => {
+                const h = new Date(o.created_at).getHours();
+                // Format to AM/PM
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                const hour12 = h % 12 || 12;
+                const label = `${hour12} ${ampm}`;
+
+                if (!hoursMap[label]) hoursMap[label] = 0;
+                hoursMap[label]++;
+            });
+
+            // Convert map to array expected by chart
+            const data = Object.keys(hoursMap).map(key => ({
+                name: key,
+                value: hoursMap[key]
+            }));
+
+            // Optional: Sort by time? Or just send as is (chart handles it?)
+            // For now, sending as extracted.
+
+            res.json({ success: true, data });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 5. Customer Insights
 app.get('/api/reports/customers', async (req, res) => {
-    res.json({
-        success: true,
-        data: {
-            newCustomers: 45,
-            returningCustomers: 83,
-            repeatRate: 65,
-            avgOrdersPerCustomer: 2.4
+    try {
+        const { range } = req.query;
+
+        if (useMockData) {
+            let factor = 1;
+            if (range === 'today') factor = 0.1;
+            else if (range === '30days') factor = 4;
+
+            res.json({
+                success: true,
+                data: {
+                    newCustomers: Math.floor(45 * factor),
+                    returningCustomers: Math.floor(83 * factor),
+                    repeatRate: 65,
+                    avgOrdersPerCustomer: 2.4
+                }
+            });
+        } else {
+            const { start, end } = getDateRange(range);
+
+            // To properly calc "new" vs "returning", we need historical data outside the range, 
+            // but for simpler dashboard logic, let's just count unique customers in this range
+            // and maybe check if they have orders prior to 'start'.
+
+            const { data: orders, error } = await supabase
+                .from('orders')
+                .select('customer_name, created_at')
+                .gte('created_at', start)
+                .lte('created_at', end);
+
+            if (error) throw error;
+
+            const customerCounts = {};
+            orders.forEach(o => {
+                const name = o.customer_name;
+                if (!customerCounts[name]) customerCounts[name] = 0;
+                customerCounts[name]++;
+            });
+
+            const uniqueCustomers = Object.keys(customerCounts).length;
+            const totalOrders = orders.length;
+            const avgOrdersPerCustomer = uniqueCustomers ? (totalOrders / uniqueCustomers).toFixed(1) : 0;
+
+            // For New vs Returning, without a customers table, we can just randomly split or assume distinct names > 1 order = returning?
+            // Let's assume returning = customerCounts[name] > 1 in this period (simplification)
+
+            let returning = 0;
+            let newCust = 0;
+
+            Object.values(customerCounts).forEach(count => {
+                if (count > 1) returning++;
+                else newCust++;
+            });
+
+            const repeatRate = uniqueCustomers ? Math.round((returning / uniqueCustomers) * 100) : 0;
+
+            res.json({
+                success: true,
+                data: {
+                    newCustomers: newCust,
+                    returningCustomers: returning,
+                    repeatRate,
+                    avgOrdersPerCustomer
+                }
+            });
         }
-    });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 6. Auto Insights
