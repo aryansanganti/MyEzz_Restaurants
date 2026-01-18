@@ -141,7 +141,12 @@ const getDateRange = (range) => {
 const checkReportMockStatus = async () => {
     if (useMockData) return true;
     const { error } = await supabase.from('orders').select('id').limit(1);
-    return error && error.code === 'PGRST205';
+    // Fallback to mock if there ANY error checking the orders table (missing, permission, etc.)
+    if (error) {
+        console.log(`DEBUG: Orders table check failed (Code: ${error.code}), falling back to mock reports.`);
+        return true;
+    }
+    return false;
 };
 
 app.get('/api/metrics/today', async (req, res) => {
