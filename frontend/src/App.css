@@ -46,11 +46,11 @@
 /* Main content area with navbar spacing - Fixed for proper footer flow */
 .main-content {
   margin-left: 180px;
-  /* margin-top: 80px; */
+  margin-top: 64px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 64px);
   position: relative;
   z-index: 1;
   /* Removed background-color to let orange glow show through */

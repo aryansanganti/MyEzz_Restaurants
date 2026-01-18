@@ -2,9 +2,9 @@
 .navbar {
   position: fixed;
   left: 0;
-  top: 80px;
+  top: 64px;
   width: 180px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 64px);
   background: rgba(11, 12, 16, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);

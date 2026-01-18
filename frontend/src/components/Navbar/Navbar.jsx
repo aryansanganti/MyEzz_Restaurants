@@ -57,7 +57,10 @@ const Navbar = () => {
                   <motion.div
                     layoutId="activeTab"
                     className={styles.activeBackground}
-                    initial={false}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+
                     transition={{
                       type: "spring",
                       stiffness: 500,

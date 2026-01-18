@@ -3,7 +3,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,14 +24,21 @@ let supabase = null;
 let useMockData = !hasSupabaseCredentials;
 
 // Initialize Supabase
+console.log('DEBUG: Environment Variables Check:', { 
+    hasUrl: !!process.env.SUPABASE_URL, 
+    hasKey: !!process.env.SUPABASE_ANON_KEY,
+    cwd: process.cwd()
+});
+
 if (hasSupabaseCredentials) {
     try {
         supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-        // Test connection with a real query to ensure table exists
-        const { error } = await supabase.from('orders').select('id').limit(1);
+        // Test connection (Checking 'restaurants' because we know it exists)
+        const { error } = await supabase.from('restaurants').select('id').limit(1);
         if (error) {
             console.warn('⚠️  Supabase connection failed, falling back to mock data');
+            console.error('DEBUG: Connection Error Details:', JSON.stringify(error, null, 2));
             useMockData = true;
         } else {
             console.log('✅ Successfully connected to Supabase');
@@ -33,8 +46,11 @@ if (hasSupabaseCredentials) {
         }
     } catch (error) {
         console.warn('⚠️  Failed to initialize Supabase, using mock data:', error.message);
+        console.error('DEBUG: Init Exception:', error);
         useMockData = true;
     }
+} else {
+    console.warn('⚠️  No credentials found in process.env');
 }
 
 // RESTAURANT ID LOGIC
@@ -85,6 +101,14 @@ const mockStore = {
     week: generateDailyData(7)
 };
 
+const mockMenuItems = [
+    { id: 101, name: 'Paneer Butter Masala', category: 'Main Course', price: 250, isVeg: true, inStock: true },
+    { id: 102, name: 'Chicken Biryani', category: 'Main Course', price: 300, isVeg: false, inStock: true },
+    { id: 103, name: 'Veg Hakka Noodles', category: 'Main Course', price: 180, isVeg: true, inStock: true },
+    { id: 104, name: 'Mango Juice', category: 'Beverages', price: 120, isVeg: true, inStock: true },
+    { id: 105, name: 'Garlic Naan', category: 'Breads', price: 50, isVeg: true, inStock: true },
+];
+
 // Helper: Get Date Range for Supabase Queries
 const getDateRange = (range) => {
     const now = new Date();
@@ -111,10 +135,21 @@ const getDateRange = (range) => {
     return { start: start.toISOString(), end: end.toISOString() };
 };
 
-// Get today's metrics (Merged Logic: Reports + Fallback)
+// Helper: Check if we should use mock for reports (even in Real Mode)
+// This handles the case where user has connected Supabase (Restaurants exist)
+// but hasn't created the 'orders' table yet.
+const checkReportMockStatus = async () => {
+    if (useMockData) return true;
+    const { error } = await supabase.from('orders').select('id').limit(1);
+    return error && error.code === 'PGRST205';
+};
+
 app.get('/api/metrics/today', async (req, res) => {
     try {
-        if (useMockData) {
+        // Fallback to mock if orders table is missing
+        const isReportsMock = await checkReportMockStatus();
+
+        if (isReportsMock) {
             // Calculate Today's Totals from mockStore
             const todaySales = mockStore.today.reduce((acc, curr) => acc + curr.sales, 0);
             const todayOrders = mockStore.today.reduce((acc, curr) => acc + curr.orders, 0);
@@ -277,7 +312,8 @@ app.get('/api/restaurant', async (req, res) => {
 app.get('/api/menu', async (req, res) => {
     try {
         if (useMockData) {
-            return res.json({ success: true, data: [] }); // Fallback empty for now
+            console.log('DEBUG: Serving Mock Menu Items');
+            return res.json({ success: true, data: mockMenuItems }); 
         }
 
         const restaurantId = getRestaurantId(req);
@@ -396,10 +432,12 @@ app.delete('/api/menu/:id', async (req, res) => {
 
 // 1. Sales Trend Data
 app.get('/api/reports/sales', async (req, res) => {
+    const isMock = await checkReportMockStatus();
+    console.log(`DEBUG: GET /api/reports/sales - Mode: ${isMock ? 'MOCK' : 'REAL'}`);
     try {
         const { range } = req.query; // 'today', 'yesterday', '7days'
 
-        if (useMockData) {
+        if (isMock) {
             let data = [];
             if (range === 'today') data = mockStore.today;
             else if (range === 'yesterday') data = mockStore.yesterday;
@@ -408,6 +446,7 @@ app.get('/api/reports/sales', async (req, res) => {
             res.json({ success: true, data });
         } else {
             const { start, end } = getDateRange(range);
+            console.log(`DEBUG: Date Range: ${start} to ${end}`);
 
             // Fetch orders for the range (hourly aggregation fallback logic applied)
             const { data: orders, error } = await supabase
@@ -417,7 +456,10 @@ app.get('/api/reports/sales', async (req, res) => {
                 .lte('created_at', end)
                 .order('created_at', { ascending: true });
 
-            if (error) throw error;
+            if (error) {
+                console.error('DEBUG: Supabase Query Error:', error);
+                throw error;
+            }
 
             if (range === 'today' || range === 'yesterday') {
                 const hourlyMap = {};
@@ -441,6 +483,7 @@ app.get('/api/reports/sales', async (req, res) => {
             }
         }
     } catch (err) {
+        console.error('DEBUG: Sales Report Handler Error:', err);
         res.status(500).json({ success: false, error: err.message });
     }
 });
@@ -449,8 +492,9 @@ app.get('/api/reports/sales', async (req, res) => {
 app.get('/api/reports/orders', async (req, res) => {
     try {
         const { range } = req.query;
+        const isMock = await checkReportMockStatus();
 
-        if (useMockData) {
+        if (isMock) {
             let factor = 1;
             if (range === 'today') factor = 0.15;
             else if (range === 'yesterday') factor = 0.14;
@@ -524,8 +568,9 @@ app.get('/api/reports/orders', async (req, res) => {
 app.get('/api/reports/menu', async (req, res) => {
     try {
         const { range } = req.query;
+        const isMock = await checkReportMockStatus();
 
-        if (useMockData) {
+        if (isMock) {
             let factor = 1;
             if (range === 'today') factor = 0.2;
             else if (range === 'yesterday') factor = 0.18;
@@ -590,8 +635,9 @@ app.get('/api/reports/menu', async (req, res) => {
 app.get('/api/reports/heatmap', async (req, res) => {
     try {
         const { range } = req.query;
+        const isMock = await checkReportMockStatus();
 
-        if (useMockData) {
+        if (isMock) {
             // Mock data...
              res.json({
                 success: true,
@@ -641,7 +687,8 @@ app.get('/api/reports/heatmap', async (req, res) => {
 app.get('/api/reports/customers', async (req, res) => {
     try {
         const { range } = req.query;
-        if (useMockData) {
+        const isMock = await checkReportMockStatus();
+        if (isMock) {
             res.json({
                 success: true,
                 data: {
