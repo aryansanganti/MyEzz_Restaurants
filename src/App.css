@@ -46,11 +46,11 @@
 /* Main content area with navbar spacing - Fixed for proper footer flow */
 .main-content {
   margin-left: 180px;
-  margin-top: 80px;
+  margin-top: 64px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 64px);
   position: relative;
   z-index: 1;
   /* Removed background-color to let orange glow show through */
@@ -87,4 +87,23 @@
     margin-top: 60px;
     min-height: calc(100vh - 60px);
   }
+}
+
+/* Light Mode Styles */
+[data-theme="light"] .app {
+  background-color: #F5F5F5;
+  color: #1A1C20;
+}
+
+[data-theme="light"] .app::before {
+  background: radial-gradient(ellipse at bottom center, 
+    rgba(255, 102, 0, 0.08) 0%, 
+    rgba(255, 102, 0, 0.04) 35%, 
+    rgba(255, 102, 0, 0.01) 55%,
+    transparent 75%
+  );
+}
+
+[data-theme="light"] .main-content {
+  background-color: transparent;
 }

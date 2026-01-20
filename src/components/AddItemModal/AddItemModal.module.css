@@ -140,6 +140,76 @@
   padding-left: 38px;
 }
 
+/* Veg/Non-Veg Toggle */
+.vegToggle {
+  display: flex;
+  gap: 12px;
+}
+
+.vegOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #94A3B8;
+  font-weight: 500;
+  flex: 1;
+  justify-content: center;
+}
+
+.radioInput {
+  display: none;
+}
+
+.vegIndicator,
+.nonVegIndicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vegIndicator {
+  border: 2px solid #10B981;
+}
+
+.nonVegIndicator {
+  border: 2px solid #DC2626;
+}
+
+.vegDot,
+.nonVegDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.vegDot {
+  background: #10B981;
+}
+
+.nonVegDot {
+  background: #DC2626;
+}
+
+.vegSelected {
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.nonVegSelected {
+  border-color: #DC2626;
+  background: rgba(220, 38, 38, 0.1);
+  color: #DC2626;
+}
+
 /* Actions */
 .actions {
   display: flex;
@@ -241,4 +311,71 @@
   .actions {
     flex-direction: column;
   }
+}
+
+/* Light Mode Styles */
+[data-theme="light"] .overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .modal {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .header {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .title {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .closeButton {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #64748B;
+}
+
+[data-theme="light"] .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: #1A1C20;
+}
+
+[data-theme="light"] .closeButton svg {
+  color: inherit;
+}
+
+[data-theme="light"] .label {
+  color: #64748B;
+}
+
+[data-theme="light"] .input,
+[data-theme="light"] .select {
+  background: rgba(248, 250, 252, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1A1C20;
+}
+
+[data-theme="light"] .input:focus,
+[data-theme="light"] .select:focus {
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+[data-theme="light"] .input::placeholder {
+  color: #94A3B8;
+}
+
+[data-theme="light"] .select {
+  background-color: rgba(248, 250, 252, 0.8);
+}
+
+[data-theme="light"] .select option {
+  background: #FFFFFF;
+  color: #1A1C20;
+}
+
+[data-theme="light"] .actions {
+  border-top-color: rgba(0, 0, 0, 0.08);
 }

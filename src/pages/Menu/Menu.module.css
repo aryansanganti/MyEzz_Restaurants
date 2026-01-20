@@ -251,3 +251,157 @@
     font-size: 14px;
   }
 }
+
+/* Light Mode Styles */
+[data-theme="light"] .title {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .subtitle {
+  color: #64748B;
+}
+
+[data-theme="light"] .searchInput {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1A1C20;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .searchInput:focus {
+  border-color: #FF6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+}
+
+[data-theme="light"] .searchInput::placeholder {
+  color: #94A3B8;
+}
+
+[data-theme="light"] .searchIcon {
+  color: #94A3B8;
+}
+
+[data-theme="light"] .categoryPill {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1A1C20;
+}
+
+[data-theme="light"] .categoryPill:hover {
+  background: rgba(255, 102, 0, 0.1);
+  border-color: rgba(255, 102, 0, 0.3);
+}
+
+[data-theme="light"] .categoryActive {
+  background: #FF6600;
+  border-color: #FF6600;
+  color: #FFFFFF;
+}
+
+[data-theme="light"] .tabsContainer {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .tab {
+  color: #64748B;
+}
+
+[data-theme="light"] .tab svg {
+  color: #64748B;
+}
+
+[data-theme="light"] .tab:hover {
+  color: #FF6600;
+}
+
+[data-theme="light"] .tab:hover svg {
+  color: #FF6600;
+}
+
+[data-theme="light"] .tabActive {
+  color: #FF6600;
+}
+
+[data-theme="light"] .tabActive svg {
+  color: #FF6600;
+}
+
+[data-theme="light"] .tabCount {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1A1C20;
+}
+
+[data-theme="light"] .tabActive .tabCount {
+  background: rgba(255, 102, 0, 0.15);
+  color: #FF6600;
+}
+
+[data-theme="light"] .emptyState {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 102, 0, 0.15);
+}
+
+[data-theme="light"] .emptyText {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .emptySubtext {
+  color: #64748B;
+}
+
+[data-theme="light"] .addButton {
+  background: #FF6600;
+  color: #FFFFFF;
+}
+
+[data-theme="light"] .addButton:hover {
+  background: #E65C00;
+}
+
+[data-theme="light"] .addButton svg {
+  color: #FFFFFF;
+}
+
+/* Loading & Error States */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 16px;
+  color: #94A3B8;
+  font-size: 16px;
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: rgba(153, 0, 0, 0.1);
+  border-radius: 16px;
+  border: 2px dashed rgba(153, 0, 0, 0.3);
+}
+
+.errorText {
+  font-size: 16px;
+  color: #FF6B6B;
+  margin: 0;
+  text-align: center;
+}
+
+/* Light Mode Loading/Error */
+[data-theme="light"] .loadingState {
+  color: #64748B;
+}
+
+[data-theme="light"] .errorState {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+[data-theme="light"] .errorText {
+  color: #DC2626;
+}

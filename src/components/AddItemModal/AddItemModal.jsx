@@ -1,41 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { CATEGORIES } from '../../types/menu';
 import styles from './AddItemModal.module.css';
 
-function AddItemModal({ isOpen, onClose, onAdd }) {
+function AddItemModal({ isOpen, onClose, onAdd, categories = [] }) {
   const [formData, setFormData] = useState({
     name: '',
-    category: CATEGORIES.MAINS,
-    price: ''
+    category: '',
+    price: '',
+    isVeg: true
   });
+
+  // Set default category when categories load
+  useEffect(() => {
+    if (categories.length > 0 && !formData.category) {
+      setFormData(prev => ({ ...prev, category: categories[0] }));
+    }
+  }, [categories, formData.category]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!formData.name.trim() || !formData.price) {
+    if (!formData.name.trim() || !formData.price || !formData.category) {
       return;
     }
 
     onAdd({
       name: formData.name.trim(),
       category: formData.category,
-      price: parseFloat(formData.price)
+      price: parseFloat(formData.price),
+      isVeg: formData.isVeg
     });
 
     // Reset form
     setFormData({
       name: '',
-      category: CATEGORIES.MAINS,
-      price: ''
+      category: categories.length > 0 ? categories[0] : '',
+      price: '',
+      isVeg: true
     });
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'radio' ? value === 'true' : value
     }));
   };
 
@@ -67,7 +76,7 @@ function AddItemModal({ isOpen, onClose, onAdd }) {
               value={formData.name}
               onChange={handleChange}
               className={styles.input}
-              placeholder="e.g., Butter Chicken"
+              placeholder="e.g., Paneer Tikka"
               required
             />
           </div>
@@ -83,12 +92,48 @@ function AddItemModal({ isOpen, onClose, onAdd }) {
               onChange={handleChange}
               className={styles.select}
               required
+              disabled={categories.length === 0}
             >
-              <option value={CATEGORIES.STARTERS}>Starters</option>
-              <option value={CATEGORIES.MAINS}>Mains</option>
-              <option value={CATEGORIES.BREADS}>Breads</option>
-              <option value={CATEGORIES.BEVERAGES}>Beverages</option>
+              {categories.length === 0 && <option value="">Loading...</option>}
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
             </select>
+          </div>
+
+          {/* Veg/Non-Veg Selection */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Food Type</label>
+            <div className={styles.vegToggle}>
+              <label className={`${styles.vegOption} ${formData.isVeg ? styles.vegSelected : ''}`}>
+                <input
+                  type="radio"
+                  name="isVeg"
+                  value="true"
+                  checked={formData.isVeg === true}
+                  onChange={handleChange}
+                  className={styles.radioInput}
+                />
+                <span className={styles.vegIndicator}>
+                  <span className={styles.vegDot}></span>
+                </span>
+                <span>Veg</span>
+              </label>
+              <label className={`${styles.vegOption} ${!formData.isVeg ? styles.nonVegSelected : ''}`}>
+                <input
+                  type="radio"
+                  name="isVeg"
+                  value="false"
+                  checked={formData.isVeg === false}
+                  onChange={handleChange}
+                  className={styles.radioInput}
+                />
+                <span className={styles.nonVegIndicator}>
+                  <span className={styles.nonVegDot}></span>
+                </span>
+                <span>Non-Veg</span>
+              </label>
+            </div>
           </div>
 
           <div className={styles.formGroup}>

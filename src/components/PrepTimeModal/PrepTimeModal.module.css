@@ -203,3 +203,84 @@
     flex: none;
   }
 }
+
+/* Light Mode Styles */
+[data-theme="light"] .modalOverlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .modalContent {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .modalHeader {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .modalTitle {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .closeBtn {
+  color: #64748B;
+}
+
+[data-theme="light"] .closeBtn:hover {
+  background: rgba(255, 102, 0, 0.1);
+  color: #FF6600;
+}
+
+[data-theme="light"] .modalTitle svg {
+  color: #FF6600;
+}
+
+[data-theme="light"] .orderSummary {
+  background: rgba(255, 102, 0, 0.05);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .orderSummary h3 {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .orderSummary p {
+  color: #64748B;
+}
+
+[data-theme="light"] .item {
+  color: #64748B;
+}
+
+[data-theme="light"] .timeOption {
+  background: rgba(248, 250, 252, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .timeOption:hover {
+  border-color: rgba(255, 102, 0, 0.3);
+  background: rgba(255, 102, 0, 0.05);
+}
+
+[data-theme="light"] .timeLabel {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .timeDescription {
+  color: #64748B;
+}
+
+[data-theme="light"] .modalActions {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .cancelBtn {
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #64748B;
+}
+
+[data-theme="light"] .cancelBtn:hover {
+  border-color: #FF6600;
+  color: #FF6600;
+}

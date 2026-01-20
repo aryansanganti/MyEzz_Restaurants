@@ -370,3 +370,60 @@
     gap: 0.5rem;
   }
 }
+
+/* Light Mode Styles */
+[data-theme="light"] .orderCard {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .orderCard:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .orderId {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .customerInfo {
+  color: #64748B;
+}
+
+[data-theme="light"] .customerInfo svg {
+  color: #94A3B8;
+}
+
+[data-theme="light"] .customerName {
+  color: rgba(100, 116, 139, 0.7);
+}
+
+[data-theme="light"] .itemName {
+  color: #1A1C20;
+}
+
+[data-theme="light"] .strikethrough {
+  color: #94A3B8;
+}
+
+[data-theme="light"] .orderTotal {
+  color: #1A1C20;
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .verificationCode {
+  background: #ECFDF5;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="light"] .orderItem {
+  border-radius: 8px;
+}
+
+[data-theme="light"] .itemChecked {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .timer svg {
+  color: #FFFFFF;
+}
