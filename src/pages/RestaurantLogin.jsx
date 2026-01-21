@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RestaurantLogin.css";
 
 export default function RestaurantLogin() {
+  const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
 
   // This forces the background to be light and blocks the black global style
@@ -33,7 +35,7 @@ export default function RestaurantLogin() {
   return (
     <div style={wrapperStyle}>
       <div className={`container ${isActive ? "active" : ""}`} id="container">
-        
+
         {/* Sign Up Form */}
         <div className="form-container sign-up">
           <form style={formBaseStyle}>
@@ -66,7 +68,7 @@ export default function RestaurantLogin() {
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <a href="#" className="forgot">Forgot Your Password?</a>
-            <button type="button" className="btn-main">Sign In</button>
+            <button type="button" className="btn-main" onClick={() => navigate('/1/orders')}>Sign In</button>
           </form>
         </div>
 
