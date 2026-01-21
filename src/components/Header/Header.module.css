@@ -20,7 +20,8 @@
 .restaurantName {
   font-size: 24px;
   font-weight: 600;
-  color: var(--color-sunset-orange); /* Orange color for header text */
+  color: var(--color-sunset-orange);
+  /* Orange color for header text */
   margin: 0;
   flex: 1;
   white-space: nowrap;
@@ -78,8 +79,10 @@
 }
 
 .toggle.offline:hover {
-  background-color: var(--color-slate-silver); /* Keep same color on hover */
-  opacity: 0.8; /* Subtle hover effect */
+  background-color: var(--color-slate-silver);
+  /* Keep same color on hover */
+  opacity: 0.8;
+  /* Subtle hover effect */
 }
 
 .toggle.offline .statusLabel {
@@ -92,11 +95,13 @@
 }
 
 .toggle.online:hover {
-  background: var(--color-emerald-green); /* Keep same color on hover */
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); /* Enhanced glow on hover */
+  background: var(--color-emerald-green);
+  /* Keep same color on hover */
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  /* Enhanced glow on hover */
 }
 
-.toggle.online + .statusLabel {
+.toggle.online+.statusLabel {
   color: var(--color-emerald-green);
 }
 
@@ -127,34 +132,35 @@
     padding: 12px 16px;
     min-height: 56px;
   }
-  
+
   .restaurantName {
     font-size: 20px;
     max-width: calc(100% - 160px);
   }
-  
+
   .statusLabel {
     font-size: 14px;
     min-width: 50px;
   }
-  
+
   .toggle {
     width: 50px;
     height: 28px;
     min-width: 50px;
-    min-height: 28px; /* Reduced to match actual height */
+    min-height: 28px;
+    /* Reduced to match actual height */
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   .toggleSlider {
     width: 24px;
     height: 24px;
     left: 2px;
     transform: translateY(-50%);
   }
-  
+
   .toggle.online .toggleSlider {
     transform: translateY(-50%) translateX(22px);
   }
@@ -167,38 +173,39 @@
     min-height: 52px;
     gap: 8px;
   }
-  
+
   .restaurantName {
     font-size: 18px;
     max-width: calc(100% - 120px);
   }
-  
+
   .toggleContainer {
     gap: 8px;
   }
-  
+
   .statusLabel {
     font-size: 12px;
     min-width: 40px;
   }
-  
+
   .toggle {
     width: 44px;
     height: 24px;
     min-width: 44px;
-    min-height: 24px; /* Reduced to match actual height */
+    min-height: 24px;
+    /* Reduced to match actual height */
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   .toggleSlider {
     width: 20px;
     height: 20px;
     left: 2px;
     transform: translateY(-50%);
   }
-  
+
   .toggle.online .toggleSlider {
     transform: translateY(-50%) translateX(20px);
   }
@@ -210,16 +217,17 @@
     padding: 6px 8px;
     flex-wrap: nowrap;
   }
-  
+
   .restaurantName {
     font-size: 16px;
     max-width: calc(100% - 100px);
   }
-  
+
   .statusLabel {
-    display: none; /* Hide status label on very small screens */
+    display: none;
+    /* Hide status label on very small screens */
   }
-  
+
   .toggleContainer {
     gap: 4px;
   }
@@ -248,4 +256,42 @@
 [data-theme="light"] .toggleSlider {
   background: #FFFFFF;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile Menu Button - Hidden on desktop, visible on mobile */
+.mobileMenuBtn {
+  display: none;
+  /* Hidden by default (desktop) */
+  background: none;
+  border: none;
+  color: var(--color-sunset-orange);
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.mobileMenuBtn:hover {
+  background: rgba(255, 102, 0, 0.1);
+}
+
+/* Show hamburger button only on mobile */
+@media (max-width: 767px) {
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+}
+
+[data-theme="light"] .mobileMenuBtn {
+  color: var(--color-sunset-orange);
+}
+
+[data-theme="light"] .mobileMenuBtn:hover {
+  background: rgba(255, 102, 0, 0.08);
 }

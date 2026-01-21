@@ -2,7 +2,8 @@
 .dashboard {
   width: 100%;
   padding: 2rem;
-  flex: 1; /* Allow it to grow and push footer down */
+  flex: 1;
+  /* Allow it to grow and push footer down */
 }
 
 .loadingContainer {
@@ -78,7 +79,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
-  min-height: 500px; /* Minimum height instead of fixed */
+  min-height: 500px;
+  /* Minimum height instead of fixed */
 }
 
 .kanbanColumn {
@@ -185,7 +187,7 @@
     grid-template-columns: 1fr 1fr;
     height: auto;
   }
-  
+
   .kanbanColumn:last-child {
     grid-column: 1 / -1;
   }
@@ -195,20 +197,20 @@
   .dashboard {
     padding: 1rem;
   }
-  
+
   .kanbanBoard {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .statsRibbon {
     flex-wrap: wrap;
   }
-  
+
   .stat {
     min-width: 120px;
   }
-  
+
   .title {
     font-size: 1.75rem;
   }
@@ -218,7 +220,7 @@
   .statNumber {
     font-size: 1.5rem;
   }
-  
+
   .statLabel {
     font-size: 0.75rem;
   }
@@ -261,4 +263,110 @@
 
 [data-theme="light"] .emptyState p {
   color: #64748B;
+}
+
+/* ===== MOBILE TAB NAVIGATION ===== */
+/* Hidden on desktop, visible only on mobile */
+.mobileTabs {
+  display: none;
+}
+
+.mobileHidden {
+  display: flex;
+  /* Default - shown on desktop */
+}
+
+@media (max-width: 767px) {
+
+  /* Show mobile tabs */
+  .mobileTabs {
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+    background: rgba(26, 28, 32, 0.7);
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .mobileTab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 8px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-slate-silver);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mobileTab:hover {
+    color: var(--color-pure-white);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .mobileTabActive {
+    background: var(--color-sunset-orange);
+    color: white;
+  }
+
+  .tabBadge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .mobileTabActive .tabBadge {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Hide non-active columns on mobile */
+  .mobileHidden {
+    display: none !important;
+  }
+
+  /* Make kanban board single column on mobile */
+  .kanbanBoard {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* Hide column headers on mobile (tabs replace them) */
+  .columnHeader {
+    display: none;
+  }
+
+  /* Adjust stats ribbon for mobile */
+  .statsRibbon {
+    display: none;
+  }
+}
+
+/* Light mode mobile overrides */
+@media (max-width: 767px) {
+  [data-theme="light"] .mobileTabs {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  [data-theme="light"] .mobileTab {
+    color: #64748B;
+  }
+
+  [data-theme="light"] .mobileTab:hover {
+    color: #1A1C20;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  [data-theme="light"] .mobileTabActive {
+    background: var(--color-sunset-orange);
+    color: white;
+  }
 }

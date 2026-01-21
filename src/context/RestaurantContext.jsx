@@ -16,6 +16,7 @@ export const RestaurantProvider = ({ children, restaurantId }) => {
   const [restaurantData, setRestaurantData] = useState(null);
   const [isOnline, setIsOnline] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +47,10 @@ export const RestaurantProvider = ({ children, restaurantId }) => {
     setIsProfileOpen(isOpen);
   };
 
+  const toggleMobileMenu = (isOpen) => {
+    setIsMobileMenuOpen(isOpen);
+  };
+
   const value = {
     restaurantId,
     restaurantName,
@@ -54,6 +59,8 @@ export const RestaurantProvider = ({ children, restaurantId }) => {
     setOnlineStatus,
     isProfileOpen,
     toggleProfile,
+    isMobileMenuOpen,
+    toggleMobileMenu,
     isLoading,
     refetchRestaurant: fetchRestaurantData
   };

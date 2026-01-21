@@ -13,6 +13,7 @@ function Dashboard() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderToReject, setOrderToReject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('new'); // For mobile tab view
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -171,8 +172,33 @@ function Dashboard() {
         </div>
       </div>
 
+      {/* Mobile Tab Bar - Hidden on desktop via CSS */}
+      <div className={styles.mobileTabs}>
+        <button
+          className={`${styles.mobileTab} ${activeTab === 'new' ? styles.mobileTabActive : ''}`}
+          onClick={() => setActiveTab('new')}
+        >
+          New
+          {newOrders.length > 0 && <span className={styles.tabBadge}>{newOrders.length}</span>}
+        </button>
+        <button
+          className={`${styles.mobileTab} ${activeTab === 'preparing' ? styles.mobileTabActive : ''}`}
+          onClick={() => setActiveTab('preparing')}
+        >
+          Preparing
+          {preparingOrders.length > 0 && <span className={styles.tabBadge}>{preparingOrders.length}</span>}
+        </button>
+        <button
+          className={`${styles.mobileTab} ${activeTab === 'ready' ? styles.mobileTabActive : ''}`}
+          onClick={() => setActiveTab('ready')}
+        >
+          Ready
+          {readyOrders.length > 0 && <span className={styles.tabBadge}>{readyOrders.length}</span>}
+        </button>
+      </div>
+
       <div className={styles.kanbanBoard}>
-        <div className={styles.kanbanColumn}>
+        <div className={`${styles.kanbanColumn} ${activeTab !== 'new' ? styles.mobileHidden : ''}`}>
           <div className={styles.columnHeader}>
             <h2 className={styles.columnTitle}>
               New Orders
@@ -207,7 +233,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className={styles.kanbanColumn}>
+        <div className={`${styles.kanbanColumn} ${activeTab !== 'preparing' ? styles.mobileHidden : ''}`}>
           <div className={styles.columnHeader}>
             <h2 className={styles.columnTitle}>
               Preparing
@@ -241,7 +267,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className={styles.kanbanColumn}>
+        <div className={`${styles.kanbanColumn} ${activeTab !== 'ready' ? styles.mobileHidden : ''}`}>
           <div className={styles.columnHeader}>
             <h2 className={styles.columnTitle}>
               Ready
