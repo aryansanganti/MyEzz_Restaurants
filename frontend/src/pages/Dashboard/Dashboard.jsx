@@ -15,54 +15,43 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadOrders = async () => {
-      setLoading(true);
+    const fetchOrders = async () => {
+      try {
+        setLoading(prev => prev && true); // Keep loading true only on first load
 
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+        // Using a hardcoded Restaurant ID for demo
+        const RESTAURANT_ID = 'rest_001';
+        const response = await fetch(`http://localhost:5001/api/orders/${RESTAURANT_ID}/active`);
 
-      const mockOrders = [
-        {
-          id: 'ORD001',
-          customerName: 'Yug Patel',
-          items: [
-            { name: 'Margherita Pizza', quantity: 1 },
-            { name: 'Caesar Salad', quantity: 1 }
-          ],
-          total: 249.99,
-          status: 'new',
-          verificationCode: generateVerificationCode()
-        },
-        {
-          id: 'ORD002',
-          customerName: 'Aksh Maheshwari',
-          items: [
-            { name: 'Chicken Burger', quantity: 2 },
-            { name: 'French Fries', quantity: 1 }
-          ],
-          total: 185.00,
-          status: 'preparing',
-          prepTime: 25,
-          acceptedAt: new Date(Date.now() - 5 * 60 * 1000),
-          verificationCode: generateVerificationCode()
-        },
-        {
-          id: 'ORD003',
-          customerName: 'Nayan Chellani',
-          items: [
-            { name: 'French Fries', quantity: 1 }
-          ],
-          total: 157.50,
-          status: 'ready',
-          verificationCode: generateVerificationCode()
-        }
-      ];
+        if (!response.ok) throw new Error('Failed to fetch orders');
 
-      setOrders(mockOrders);
-      setLoading(false);
+        const data = await response.json();
+
+        // Transform MongoDB _id to id if necessary, or just use as is
+        const formattedOrders = data.map(o => ({
+          ...o, // Spread first to avoid overwriting custom fields
+          id: o._id,
+          customerName: o.customer_id,
+          status: o.status === 'pending' ? 'new' : o.status,
+          items: o.items.map(i => ({ ...i, quantity: i.qty || i.quantity })), // Normalize qty -> quantity
+          total: o.items.reduce((acc, i) => acc + (i.price * (i.qty || i.quantity || 1)), 0)
+        }));
+
+        setOrders(formattedOrders);
+      } catch (err) {
+        console.error('Error polling orders:', err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    loadOrders();
+    // Initial Fetch
+    fetchOrders();
+
+    // Poll every 10 seconds
+    const intervalId = setInterval(fetchOrders, 10000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   function generateVerificationCode() {
@@ -73,6 +62,23 @@ function Dashboard() {
     }
     return result;
   }
+
+  const updateOrderStatus = async (orderId, status, additionalData = {}) => {
+    try {
+      // Optimistic Update
+      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status, ...additionalData } : o));
+
+      // API Call
+      await fetch(`http://localhost:5001/api/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, ...additionalData })
+      });
+    } catch (err) {
+      console.error('Failed to update status:', err);
+      // Revert if needed (omitted for brevity)
+    }
+  };
 
   const handleAcceptOrder = (orderId) => {
     const order = orders.find(o => o.id === orderId);
@@ -88,8 +94,7 @@ function Dashboard() {
 
   const handleConfirmReject = (reason) => {
     if (orderToReject) {
-      // In a real app, you would send the rejection reason to the backend here
-      console.log(`Rejecting order ${orderToReject.id} for reason: ${reason}`);
+      updateOrderStatus(orderToReject.id, 'cancelled', { rejectionReason: reason });
       setOrders(orders.filter(order => order.id !== orderToReject.id));
       setOrderToReject(null);
     }
@@ -97,33 +102,26 @@ function Dashboard() {
 
   const handleConfirmPrepTime = (prepTime) => {
     if (selectedOrder) {
-      setOrders(orders.map(order =>
-        order.id === selectedOrder.id
-          ? {
-            ...order,
-            status: 'preparing',
-            prepTime,
-            acceptedAt: new Date()
-          }
-          : order
-      ));
+      // Backend expects 'preparing'
+      updateOrderStatus(selectedOrder.id, 'preparing', { prepTime, acceptedAt: new Date() });
     }
     setSelectedOrder(null);
   };
 
   const handleMarkReady = (orderId) => {
-    setOrders(orders.map(order =>
-      order.id === orderId
-        ? { ...order, status: 'ready' }
-        : order
-    ));
+    updateOrderStatus(orderId, 'ready', { verificationCode: generateVerificationCode() });
   };
 
   const handleHandToRider = (orderId) => {
+    // Backend expects 'out_for_delivery'
+    // This triggers the Rider App broadcasting (if rider is assigned)
+    updateOrderStatus(orderId, 'out_for_delivery');
+
+    // Remove from dashboard view (since it's done for kitchen)
     setOrders(orders.filter(order => order.id !== orderId));
   };
 
-  const newOrders = orders.filter(order => order.status === 'new');
+  const newOrders = orders.filter(order => order.status === 'new' || order.status === 'pending');
   const preparingOrders = orders.filter(order => order.status === 'preparing');
   const readyOrders = orders.filter(order => order.status === 'ready');
 
