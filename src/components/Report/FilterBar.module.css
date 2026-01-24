@@ -86,24 +86,78 @@
     .filterBar {
         flex-direction: column;
         align-items: stretch;
+        gap: 0.75rem;
     }
 
     .rangeSelector {
         overflow-x: auto;
         width: 100%;
+        padding: 6px;
+        /* Hide scrollbar but still scrollable */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .rangeSelector::-webkit-scrollbar {
+        display: none;
     }
 
     .filterBtn {
-        flex: 1;
+        flex-shrink: 0;
         white-space: nowrap;
+        padding: 10px 18px;
+        font-size: 0.88rem;
+        min-height: 44px;
     }
 
     .actions {
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.75rem;
     }
 
     .actionBtn {
         flex: 1;
+        min-width: calc(50% - 0.375rem);
         justify-content: center;
+        padding: 12px 16px;
+        font-size: 0.88rem;
+        min-height: 48px;
+    }
+
+    .exportBtn {
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Custom date popup - Better mobile layout */
+    .customDatePopup {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        width: 100% !important;
+        background: var(--color-midnight-slate) !important;
+        padding: 1.25rem 1rem !important;
+        border-radius: 16px 16px 0 0 !important;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        z-index: 1000 !important;
+    }
+
+    .dateInput {
+        flex: 1;
+        min-height: 48px !important;
+        font-size: 0.95rem !important;
+        padding: 12px !important;
+    }
+
+    .customDatePopup button {
+        min-height: 48px !important;
+        min-width: 80px !important;
+        font-size: 0.95rem !important;
+        padding: 12px 20px !important;
     }
 }

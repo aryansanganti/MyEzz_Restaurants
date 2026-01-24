@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Instagram, Phone, Mail, ExternalLink } from "lucide-react";
+import { Instagram, Phone, Mail, ExternalLink, User, Lock } from "lucide-react";
 import "./RestaurantLogin.css";
 
 export default function RestaurantLogin() {
@@ -78,11 +78,29 @@ export default function RestaurantLogin() {
         {/* Login Form */}
         <div className="form-container sign-in">
           <form style={formBaseStyle} onSubmit={(e) => e.preventDefault()}>
-            <h1 className="title">Welcome Back</h1>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <a href="#" className="forgot">Forgot Your Password?</a>
-            <button type="submit" className="btn-main" onClick={() => navigate('/1/orders')}>Sign In</button>
+            {/* Mobile-only Logo */}
+            <div className="mobile-logo-section">
+              <img 
+                src="/myezzlogopage0001removebgpreview1338-07fh-400h.png" 
+                alt="MyEzz" 
+                className="mobile-brand-logo"
+              />
+            </div>
+
+            <h1 className="title">Welcome Back,<br/>Partner!</h1>
+            
+            <div className="sheet-content">
+              <div className="input-group">
+                <User className="input-icon" size={20} />
+                <input type="email" placeholder="Email" />
+              </div>
+              <div className="input-group">
+                <Lock className="input-icon" size={20} />
+                <input type="password" placeholder="Password" />
+              </div>
+              <button type="submit" className="btn-main" onClick={() => navigate('/1/orders')}>Sign In</button>
+              <a href="#" className="forgot">Forgot Password?</a>
+            </div>
           </form>
         </div>
 

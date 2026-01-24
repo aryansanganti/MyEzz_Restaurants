@@ -149,7 +149,27 @@
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .report h1 {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.88rem;
+  }
+
+  /* Insights Banner - Better wrapping */
+  .insightsBanner {
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .insightPill {
+    font-size: 0.85rem;
+    padding: 7px 14px;
   }
 
   .bottomGrid {
@@ -167,11 +187,52 @@
     grid-template-columns: 1fr;
     display: flex;
     flex-direction: column;
+    gap: 1.25rem;
   }
 
   .colSpan1,
   .colSpan2 {
     grid-column: span 12;
     width: 100%;
+  }
+
+  /* Improved spacing for mobile */
+  .grid {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Better chart heights for mobile */
+  .chartSection {
+    min-height: 300px;
+    max-height: 350px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .report {
+    padding: 0.75rem;
+  }
+
+  .report h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+  }
+
+  .insightPill {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .grid {
+    gap: 1rem;
+  }
+
+  .chartSection {
+    min-height: 250px;
+    max-height: 300px;
   }
 }

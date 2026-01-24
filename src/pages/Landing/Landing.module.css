@@ -775,6 +775,7 @@
 }
 
 @media (max-width: 767px) {
+  /* Navbar Enhancements */
   .glassNavbar {
     padding: 0.75rem 1rem;
   }
@@ -783,41 +784,79 @@
     display: none;
   }
   
+  /* ENHANCED: Larger logo for mobile visibility */
   .logoImage {
-    height: 32px;
+    height: 60px;
+    transition: height 0.3s ease;
   }
   
+  /* Hero Section Optimization */
   .heroSection {
     padding: 6rem 1.5rem 3rem;
+    min-height: calc(100vh - 80px);
   }
   
   .heroHeadline {
     font-size: 2.5rem;
-    line-height: 0.95;
+    line-height: 1;
+    margin-bottom: 1rem;
   }
   
   .heroSubtitle {
     font-size: 1rem;
     margin-bottom: 2rem;
+    line-height: 1.6;
   }
   
+  /* ENHANCED: Full-width CTA button for mobile */
   .ctaButton {
-    padding: 1rem 2rem;
-    font-size: 1rem;
+    width: 100%;
+    max-width: 400px;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.05rem;
+    justify-content: center;
   }
   
+  /* Features Grid */
   .featuresGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    padding: 0 0.5rem;
   }
   
+  .featureCard {
+    padding: 1.75rem;
+  }
+  
+  .featureIcon {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .featureTitle {
+    font-size: 1.15rem;
+  }
+  
+  .featureDescription {
+    font-size: 0.9rem;
+  }
+  
+  /* Stats Grid */
   .statsGrid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
   
+  .statItem {
+    padding: 1.75rem 1.25rem;
+  }
+  
   .statNumber {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
+  }
+  
+  .statLabel {
+    font-size: 0.9rem;
   }
   
   /* Footer Mobile Styles */
@@ -831,9 +870,30 @@
     margin-bottom: 2rem;
   }
   
+  .footerBrand {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  .footerLogo {
+    height: 50px;
+  }
+  
+  .footerDescription {
+    text-align: center;
+  }
+  
   .footerLinks {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+  }
+  
+  .footerColumn {
+    text-align: center;
+  }
+  
+  .footerColumnTitle {
+    font-size: 0.95rem;
   }
   
   .footerBottom {
@@ -842,8 +902,18 @@
     text-align: center;
   }
   
+  .footerCopyright {
+    font-size: 0.85rem;
+  }
+  
   .footerBottomLinks {
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .footerBottomLink {
+    font-size: 0.8rem;
   }
   
   /* Hide watermark vectors on mobile */
@@ -851,8 +921,62 @@
     display: none;
   }
   
+  /* ENHANCED: Show mobile menu button with better styling */
   .mobileMenuBtn {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
+    transition: all 0.2s ease;
+  }
+  
+  .mobileMenuBtn:hover {
+    background: rgba(255, 102, 0, 0.15);
+  }
+  
+  /* ENHANCED: Simple Sign In button for mobile (not drawer) */
+  .navContent::after {
+    content: '';
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Add visible Sign In button on mobile */
+  .glassNavbar .navButton {
+    display: inline-flex !important;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navContent {
+    position: relative;
+  }
+  
+  /* Optimize feature section spacing */
+  .featuresSection {
+    padding: 4rem 1.5rem;
+  }
+  
+  .statsSection {
+    padding: 4rem 1.5rem;
+  }
+  
+  /* Improve touch targets for all interactive elements */
+  .navLink,
+  .footerLink,
+  .socialContactLink {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
   }
