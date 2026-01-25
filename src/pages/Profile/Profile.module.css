@@ -950,11 +950,138 @@
   color: #FFFFFF;
 }
 
-/* ========== RESPONSIVE ========== */
-@media (max-width: 640px) {
-  .profile {
+/* ========== RESPONSIVE - MOBILE FULLSCREEN ========== */
+@media (max-width: 767px) {
+  /* Make profile fullscreen on mobile */
+  .backdrop {
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    background: #0B1120;
+    backdrop-filter: none;
+  }
+  
+  .profileCard {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    background: #0B1120;
+  }
+  
+  .profileContent {
+    max-height: calc(100vh - 60px);
     padding: 1rem;
     gap: 1.25rem;
+  }
+  
+  .cardHeader {
+    border-radius: 0;
+    padding: 1rem 1.25rem;
+  }
+  
+  .cardTitle {
+    font-size: 1rem;
+  }
+  
+  /* Stack branding row vertically on small screens */
+  .brandingRow {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .brandInfo {
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+  
+  .operationalToggle {
+    flex-direction: row;
+    gap: 10px;
+    margin-left: auto;
+  }
+  
+  .identityHeader {
+    padding: 1.25rem;
+  }
+  
+  /* Stats grid 2 columns on mobile */
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .statCard {
+    padding: 12px;
+  }
+  
+  .statValue {
+    font-size: 1.25rem;
+  }
+  
+  .statLabel {
+    font-size: 0.65rem;
+  }
+  
+  /* Card row adjustments */
+  .cardRow {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .cardRowIcon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .cardValue {
+    font-size: 0.9rem;
+  }
+  
+  /* Settings and menu rows */
+  .settingRow,
+  .menuRow {
+    padding: 12px 14px;
+  }
+  
+  /* Buttons */
+  .whatsappBtn,
+  .supportBtn {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .logoutBtn {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+  
+  /* Restaurant name smaller on mobile */
+  .restaurantName {
+    font-size: 1.25rem;
+  }
+  
+  /* Logo smaller on mobile */
+  .logo {
+    width: 56px;
+    height: 56px;
+  }
+  
+  /* Partner ID */
+  .partnerId {
+    font-size: 0.8rem;
+  }
+  
+  /* Earnings box */
+  .earningsBox {
+    padding: 16px;
+  }
+  
+  .earningsValue {
+    font-size: 1.75rem;
   }
 }
 

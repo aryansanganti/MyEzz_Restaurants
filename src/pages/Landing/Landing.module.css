@@ -779,36 +779,62 @@
     padding: 0.75rem 1rem;
   }
   
+  /* Hide feature/stats links but keep the nav container visible for button */
   .navLinks {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  /* Hide the text links on mobile */
+  .navLink {
     display: none;
   }
   
+  /* Show Sign In button on mobile */
+  .navButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Bigger logo for mobile viewers */
   .logoImage {
-    height: 32px;
+    height: 48px;
+  }
+  
+  /* Hide the mobile menu button (drawer not needed) */
+  .mobileMenuBtn {
+    display: none;
   }
   
   .heroSection {
-    padding: 6rem 1.5rem 3rem;
+    min-height: auto;
+    padding: 5.5rem 1.25rem 2.5rem;
   }
   
   .heroHeadline {
-    font-size: 2.5rem;
-    line-height: 0.95;
+    font-size: 2.25rem;
+    line-height: 1;
   }
   
   .heroSubtitle {
-    font-size: 1rem;
-    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.75rem;
   }
   
   .ctaButton {
-    padding: 1rem 2rem;
+    padding: 0.875rem 1.75rem;
+    padding-right: 3.5rem;
     font-size: 1rem;
   }
   
   .featuresGrid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
+  }
+  
+  .featureCard {
+    padding: 1.5rem;
   }
   
   .statsGrid {
@@ -822,18 +848,27 @@
   
   /* Footer Mobile Styles */
   .footer {
-    padding: 3rem 1.5rem 2rem;
+    padding: 2.5rem 1.25rem 1.5rem;
   }
   
   .footerTop {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 1.75rem;
+    margin-bottom: 1.75rem;
+  }
+  
+  .footerLogo {
+    height: 50px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .footerDescription {
+    font-size: 0.9rem;
   }
   
   .footerLinks {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
   
   .footerBottom {
@@ -849,12 +884,6 @@
   /* Hide watermark vectors on mobile */
   .watermarkIcon {
     display: none;
-  }
-  
-  .mobileMenuBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }
 
