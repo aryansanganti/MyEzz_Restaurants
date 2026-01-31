@@ -92,3 +92,33 @@
     gap: 1rem;
   }
 }
+
+/* Light Mode Styles */
+[data-theme="light"] .footer {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .copyright {
+  color: #64748B;
+}
+
+[data-theme="light"] .link {
+  color: #64748B;
+}
+
+[data-theme="light"] .link:hover {
+  color: #FF6600;
+}
+
+[data-theme="light"] .socialIcon {
+  color: #64748B;
+}
+
+[data-theme="light"] .socialIcon svg {
+  color: inherit;
+}
+
+[data-theme="light"] .socialIcon:hover {
+  color: #FF6600;
+  background: rgba(255, 102, 0, 0.1);
+}

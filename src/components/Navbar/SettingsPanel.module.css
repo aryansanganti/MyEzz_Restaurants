@@ -194,16 +194,61 @@
 
 /* Light mode overrides for settings button */
 [data-theme="light"] .settingsButton {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #374151;
+}
+
+[data-theme="light"] .settingsButton svg {
+  color: #374151;
 }
 
 [data-theme="light"] .settingsButton:hover {
-  background: rgba(255, 102, 0, 0.1);
-  border-color: rgba(255, 102, 0, 0.3);
+  background: rgba(255, 102, 0, 0.12);
+  border-color: rgba(255, 102, 0, 0.4);
+  color: #FF6600;
+}
+
+[data-theme="light"] .settingsButton:hover svg {
+  color: #FF6600;
 }
 
 [data-theme="light"] .settingsButtonActive {
+  background: rgba(255, 102, 0, 0.15);
+  border-color: rgba(255, 102, 0, 0.4);
+  color: #FF6600;
+}
+
+[data-theme="light"] .settingsButtonActive svg {
+  color: #FF6600;
+}
+
+/* Light mode theme label */
+[data-theme="light"] .themeLabel {
+  color: #374151;
+}
+
+[data-theme="light"] .themeLabel svg {
+  color: #374151;
+}
+
+[data-theme="light"] .themeRow:hover {
+  background: rgba(255, 102, 0, 0.08);
+}
+
+[data-theme="light"] .popoverItem {
+  color: #374151;
+}
+
+[data-theme="light"] .popoverItem svg {
+  color: #374151;
+}
+
+[data-theme="light"] .popoverItem:hover {
   background: rgba(255, 102, 0, 0.12);
-  border-color: rgba(255, 102, 0, 0.3);
+  color: #1A1C20;
+}
+
+[data-theme="light"] .popoverItem:hover svg {
+  color: #FF6600;
 }

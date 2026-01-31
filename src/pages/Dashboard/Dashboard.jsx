@@ -1,69 +1,130 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import OrderCard from '../../components/OrderCard/OrderCard';
 import PrepTimeModal from '../../components/PrepTimeModal/PrepTimeModal';
 import RejectionModal from '../../components/RejectionModal/RejectionModal';
 import RingSpinner from '../../components/Spinner/Spinner';
+import WarningToast from '../../components/ui/WarningToast';
 import styles from './Dashboard.module.css';
+import { fetchActiveOrders, updateOrderStatus } from '../../services/centralOrderService';
+import { useParams } from 'react-router-dom';
 
 function Dashboard() {
+  const { restaurantId } = useParams();
   const [orders, setOrders] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [rejectionModalOpen, setRejectionModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderToReject, setOrderToReject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('new'); // For mobile tab view
+  const [warningId, setWarningId] = useState(0);
+
+  // Sound notification
+  const lastOrderCountRef = useRef(0);
+  const [isSoundBlocked, setIsSoundBlocked] = useState(false);
+
+  const playSound = async () => {
+    try {
+      const audio = new Audio('/ding.mp3');
+      await audio.play();
+      setIsSoundBlocked(false);
+    } catch (error) {
+      console.error('Error playing notification sound:', error);
+      if (error.name === 'NotAllowedError') {
+        setIsSoundBlocked(true);
+      }
+    }
+  };
 
   useEffect(() => {
-    const loadOrders = async () => {
-      setLoading(true);
+    const currentNewOrders = orders.filter(o => o.status === 'new').length;
+    
+    // Play sound if we have more new orders than before
+    if (currentNewOrders > lastOrderCountRef.current) {
+      playSound();
+    }
+    
+    lastOrderCountRef.current = currentNewOrders;
+  }, [orders]);
 
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+  const enableSound = () => {
+    playSound();
+  };
 
-      const mockOrders = [
-        {
-          id: 'ORD001',
-          customerName: 'Yug Patel',
-          items: [
-            { name: 'Margherita Pizza', quantity: 1 },
-            { name: 'Caesar Salad', quantity: 1 }
-          ],
-          total: 249.99,
-          status: 'new',
-          verificationCode: generateVerificationCode()
-        },
-        {
-          id: 'ORD002',
-          customerName: 'Aksh Maheshwari',
-          items: [
-            { name: 'Chicken Burger', quantity: 2 },
-            { name: 'French Fries', quantity: 1 }
-          ],
-          total: 185.00,
-          status: 'preparing',
-          prepTime: 25,
-          acceptedAt: new Date(Date.now() - 5 * 60 * 1000),
-          verificationCode: generateVerificationCode()
-        },
-        {
-          id: 'ORD003',
-          customerName: 'Nayan Chellani',
-          items: [
-            { name: 'French Fries', quantity: 1 }
-          ],
-          total: 157.50,
-          status: 'ready',
-          verificationCode: generateVerificationCode()
+  const handleValidationFail = () => {
+    setWarningId(Date.now());
+  };
+
+  // Fetch orders from Central Backend
+  useEffect(() => {
+    const loadOrders = async (isBackground = false) => {
+      // Only show full loading spinner on first load, not background polls
+      if (!isBackground) {
+        setLoading(true);
+      }
+      setError(null);
+
+      try {
+        // Fetch all active orders from Central Backend
+        const data = await fetchActiveOrders();
+        
+        // Transform backend data to match frontend format
+        const transformedOrders = data.map(order => ({
+          id: order._id,
+          customerName: order.customer_id, // In real app, fetch customer name from Supabase
+          items: order.items.map(item => ({
+            name: item.name,
+            quantity: item.qty
+          })),
+          total: order.total_amount || order.items.reduce((sum, item) => sum + (item.price * item.qty), 0),
+          status: mapBackendStatus(order.status),
+          verificationCode: generateVerificationCode(),
+          prepTime: order.prepTime,
+          acceptedAt: order.acceptedAt ? new Date(order.acceptedAt) : null
+        }));
+        
+        setOrders(transformedOrders);
+      } catch (err) {
+        console.error('Failed to fetch orders:', err);
+        // Only show error message on main load, simpler handling for background
+        if (!isBackground) {
+            setError('Failed to load orders.');
+            setOrders([]);
         }
-      ];
-
-      setOrders(mockOrders);
-      setLoading(false);
+      } finally {
+        if (!isBackground) {
+            setLoading(false);
+        }
+      }
     };
 
-    loadOrders();
-  }, []);
+    // Initial load
+    loadOrders(false);
+    
+    // Poll for new orders every 5 seconds (background update)
+    const interval = setInterval(() => loadOrders(true), 5000);
+    return () => clearInterval(interval);
+  }, [restaurantId]);
+
+  // Map backend status to frontend status
+  function mapBackendStatus(backendStatus) {
+    const statusMap = {
+      'pending': 'new',
+      'preparing': 'preparing',
+      'ready': 'ready',
+      // Rider-managed statuses - these shouldn't show in restaurant dashboard
+      // but if they do, map them appropriately
+      'accepted': 'new',  // Rider accepted, but Restaurant still treats as new/preparing
+      'pickup_completed': 'ready',
+      'delivery_started': 'ready',
+      'out_for_delivery': 'ready',
+      'delivered': 'completed',
+      'cancelled': 'rejected'
+    };
+    return statusMap[backendStatus] || 'new';
+  }
 
   function generateVerificationCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -86,41 +147,66 @@ function Dashboard() {
     setRejectionModalOpen(true);
   };
 
-  const handleConfirmReject = (reason) => {
+  const handleConfirmReject = async (reason) => {
     if (orderToReject) {
-      // In a real app, you would send the rejection reason to the backend here
-      console.log(`Rejecting order ${orderToReject.id} for reason: ${reason}`);
-      setOrders(orders.filter(order => order.id !== orderToReject.id));
+      try {
+        await updateOrderStatus(orderToReject.id, 'cancelled');
+        console.log(`Rejecting order ${orderToReject.id} for reason: ${reason}`);
+        setOrders(orders.filter(order => order.id !== orderToReject.id));
+      } catch (err) {
+        console.error('Failed to reject order:', err);
+      }
       setOrderToReject(null);
     }
   };
 
-  const handleConfirmPrepTime = (prepTime) => {
+  const handleConfirmPrepTime = async (prepTime) => {
     if (selectedOrder) {
-      setOrders(orders.map(order =>
-        order.id === selectedOrder.id
-          ? {
-            ...order,
-            status: 'preparing',
-            prepTime,
-            acceptedAt: new Date()
-          }
-          : order
-      ));
+      try {
+        await updateOrderStatus(selectedOrder.id, 'preparing');
+        setOrders(orders.map(order =>
+          order.id === selectedOrder.id
+            ? {
+              ...order,
+              status: 'preparing',
+              prepTime,
+              acceptedAt: new Date()
+            }
+            : order
+        ));
+      } catch (err) {
+        console.error('Failed to update order status:', err);
+      }
     }
     setSelectedOrder(null);
   };
 
-  const handleMarkReady = (orderId) => {
-    setOrders(orders.map(order =>
-      order.id === orderId
-        ? { ...order, status: 'ready' }
-        : order
-    ));
+  const handleMarkReady = async (orderId) => {
+    try {
+      // Update status to 'ready' in Central Backend
+      await updateOrderStatus(orderId, 'ready');
+      
+      setOrders(orders.map(order =>
+        order.id === orderId
+          ? { ...order, status: 'ready' }
+          : order
+      ));
+    } catch (err) {
+      console.error('Failed to mark order as ready:', err);
+    }
   };
 
-  const handleHandToRider = (orderId) => {
-    setOrders(orders.filter(order => order.id !== orderId));
+  const handleHandToRider = async (orderId) => {
+    try {
+      // Restaurant confirms rider has the order
+      // NOTE: We do NOT change status here - the Rider app controls status transitions
+      // from 'ready' -> 'pickup_completed' -> 'delivery_started' -> 'delivered'
+      // This just removes the order from the Restaurant's active view
+      setOrders(orders.filter(order => order.id !== orderId));
+      console.log(`Order ${orderId} handed to rider - removed from Restaurant view`);
+    } catch (err) {
+      console.error('Failed to hand order to rider:', err);
+    }
   };
 
   const newOrders = orders.filter(order => order.status === 'new');
@@ -148,7 +234,29 @@ function Dashboard() {
   return (
     <div className={styles.dashboard}>
       <div className={styles.dashboardHeader}>
-        <h1 className={styles.title}>Orders</h1> {/* Changed from Kitchen Dashboard to Orders */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h1 className={styles.title}>Orders</h1> 
+          {isSoundBlocked && (
+            <button 
+              onClick={enableSound}
+              style={{
+                backgroundColor: '#FF6600',
+                color: 'white',
+                border: 'none',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                marginBottom: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontWeight: 'bold'
+              }}
+            >
+              Enable Sound 🔔
+            </button>
+          )}
+        </div>
         <div className={styles.statsRibbon}>
           <div className={styles.stat}>
             <span className={styles.statNumber}>{newOrders.length}</span>
@@ -171,8 +279,33 @@ function Dashboard() {
         </div>
       </div>
 
+      {/* Mobile Tab Bar - Hidden on desktop via CSS */}
+      <div className={styles.mobileTabs}>
+        <button
+          className={`${styles.mobileTab} ${activeTab === 'new' ? styles.mobileTabActive : ''}`}
+          onClick={() => setActiveTab('new')}
+        >
+          New
+          {newOrders.length > 0 && <span className={styles.tabBadge}>{newOrders.length}</span>}
+        </button>
+        <button
+          className={`${styles.mobileTab} ${activeTab === 'preparing' ? styles.mobileTabActive : ''}`}
+          onClick={() => setActiveTab('preparing')}
+        >
+          Preparing
+          {preparingOrders.length > 0 && <span className={styles.tabBadge}>{preparingOrders.length}</span>}
+        </button>
+        <button
+          className={`${styles.mobileTab} ${activeTab === 'ready' ? styles.mobileTabActive : ''}`}
+          onClick={() => setActiveTab('ready')}
+        >
+          Ready
+          {readyOrders.length > 0 && <span className={styles.tabBadge}>{readyOrders.length}</span>}
+        </button>
+      </div>
+
       <div className={styles.kanbanBoard}>
-        <div className={styles.kanbanColumn}>
+        <div className={`${styles.kanbanColumn} ${activeTab !== 'new' ? styles.mobileHidden : ''}`}>
           <div className={styles.columnHeader}>
             <h2 className={styles.columnTitle}>
               New Orders
@@ -207,7 +340,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className={styles.kanbanColumn}>
+        <div className={`${styles.kanbanColumn} ${activeTab !== 'preparing' ? styles.mobileHidden : ''}`}>
           <div className={styles.columnHeader}>
             <h2 className={styles.columnTitle}>
               Preparing
@@ -229,6 +362,7 @@ function Dashboard() {
                   <OrderCard
                     order={order}
                     onMarkReady={handleMarkReady}
+                    onValidationFail={handleValidationFail}
                   />
                 </motion.div>
               ))}
@@ -241,7 +375,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className={styles.kanbanColumn}>
+        <div className={`${styles.kanbanColumn} ${activeTab !== 'ready' ? styles.mobileHidden : ''}`}>
           <div className={styles.columnHeader}>
             <h2 className={styles.columnTitle}>
               Ready
@@ -289,6 +423,17 @@ function Dashboard() {
         onConfirm={handleConfirmReject}
         orderDetails={orderToReject}
       />
+
+      {/* Warning Toast for Validation Feedback */}
+      {warningId > 0 && (
+        <WarningToast 
+            key={warningId}
+            message="Please tick all items as done before marking ready" 
+            isVisible={true}
+            onClose={() => setWarningId(0)}
+            duration={3000}
+        />
+      )}
     </div>
   );
 }

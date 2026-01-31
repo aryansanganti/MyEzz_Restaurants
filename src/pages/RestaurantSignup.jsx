@@ -1,8 +1,10 @@
 //restrauntsignup.jsx
 import { useState } from "react"
 import { supabase } from "../supabaseClient"
+import { useNavigate } from "react-router-dom"
 
 export default function RestaurantSignup() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -25,6 +27,8 @@ export default function RestaurantSignup() {
       alert(error.message)
     } else {
       alert("Signup successful. Check email.")
+      // TODO: Fetch actual restaurant ID from Supabase after profile creation
+      navigate('/1/orders');
     }
 
     setLoading(false)

@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRestaurant } from '../../context/RestaurantContext';
 import { Settings, User, Moon, Sun } from 'lucide-react';
 import styles from './SettingsPanel.module.css';
 
 const SettingsPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState('dark');
+  const { toggleProfile } = useRestaurant();
   const panelRef = useRef(null);
+  // const navigate = useNavigate(); // Removed as per instruction to use toggleProfile
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -50,7 +53,13 @@ const SettingsPanel = () => {
             transition={{ duration: 0.2, ease: 'easeOut' }}
           >
             {/* Profile Option */}
-            <button className={styles.popoverItem} onClick={() => console.log('Navigate to profile')}>
+            <button 
+              className={styles.popoverItem} 
+              onClick={() => {
+                toggleProfile(true); // Changed from navigate('/profile')
+                setIsOpen(false);
+              }}
+            >
               <User size={18} strokeWidth={1.5} />
               <span>Profile</span>
             </button>

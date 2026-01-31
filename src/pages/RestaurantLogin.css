@@ -1,17 +1,19 @@
 .container {
-    background-color: #fff !important;
-    border-radius: 30px !important;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35) !important;
+    background-color: #1e1e1e !important;
+    border-radius: 24px !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
     position: relative !important;
     overflow: hidden !important;
-    width: 768px !important;
-    max-width: 100% !important;
-    min-height: 480px !important;
+    width: 800px !important;
+    max-width: 95% !important;
+    min-height: 500px !important;
 }
 
 .container .title {
-    color: #333 !important;
-    margin-bottom: 10px;
+    color: #fff !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    margin-bottom: 20px !important;
 }
 
 .form-container {
@@ -50,32 +52,136 @@
     50%, 100% { opacity: 1; z-index: 5; }
 }
 
-.form-container input {
-    background-color: #eee !important;
-    border: none !important;
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.social-icons a.icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icons a.icon:hover {
+    border-color: #FF6600;
+    color: #FF6600;
+    transform: translateY(-2px);
+}
+
+/* Form Inputs */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    background-color: #2a2a2a !important;
+    border: 1px solid #3a3a3a !important;
     margin: 8px 0 !important;
-    padding: 10px 15px !important;
-    font-size: 13px !important;
+    padding: 14px 16px !important;
+    font-size: 14px !important;
     border-radius: 8px !important;
     width: 100% !important;
     outline: none !important;
-    color: #333 !important; /* Force dark text */
+    color: #fff !important;
+    transition: all 0.3s ease !important;
 }
 
+.form-container input[type="text"]:focus,
+.form-container input[type="email"]:focus,
+.form-container input[type="password"]:focus {
+    border-color: #FF6600 !important;
+    background-color: #333 !important;
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1) !important;
+}
+
+.form-container input::placeholder {
+    color: #666 !important;
+}
+
+/* Custom Checkbox */
+.terms-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 15px 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.terms-checkbox input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+    accent-color: #FF6600;
+    cursor: pointer;
+}
+
+.terms-checkbox .terms-text {
+    font-size: 13px;
+    color: #888;
+}
+
+/* Main Button */
 .btn-main {
-    background-color: #ff4b2b !important;
+    background: linear-gradient(135deg, #FF6600 0%, #FF8C00 100%) !important;
     color: #fff !important;
-    font-size: 12px !important;
-    padding: 10px 45px !important;
-    border: 1px solid transparent !important;
+    font-size: 14px !important;
+    padding: 14px 50px !important;
+    border: none !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
     letter-spacing: 0.5px !important;
     text-transform: uppercase !important;
-    margin-top: 10px !important;
+    margin-top: 15px !important;
     cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3) !important;
 }
 
+.btn-main:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 25px rgba(255, 102, 0, 0.4) !important;
+}
+
+.btn-main:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* Spin animation for loading state */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spin-animation {
+    animation: spin 1s linear infinite;
+}
+
+/* Forgot Password Link */
+.form-container a.forgot {
+    color: #888 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+    margin: 15px 0 5px !important;
+    transition: all 0.2s ease !important;
+}
+
+.form-container a.forgot:hover {
+    color: #FF6600 !important;
+}
+
+/* Toggle Container */
 .toggle-container {
     position: absolute;
     top: 0;
@@ -93,8 +199,7 @@
 }
 
 .toggle {
-    background-color: #512da8;
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    background: linear-gradient(135deg, #FF6600 0%, #FF8C00 50%, #FFA500 100%);
     color: #fff;
     position: relative;
     left: -100%;
@@ -116,7 +221,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 30px;
+    padding: 0 40px;
     text-align: center;
     top: 0;
     transform: translateX(0);
@@ -129,26 +234,463 @@
 .toggle-right { right: 0; transform: translateX(0); }
 .container.active .toggle-right { transform: translateX(200%); }
 
-.hidden {
-    background-color: transparent !important;
-    border-color: #fff !important;
-    color: #fff !important;
-    border: 1px solid #fff !important;
-    padding: 10px 45px !important;
-    border-radius: 8px !important;
-    cursor: pointer !important;
-}
-
-/* This targets the "Don't have an account?" and "Already have an account?" text */
-.toggle-panel p {
-    color: #FFFFFF !important; /* Pure white for maximum visibility */
-    font-weight: 500 !important;
-    opacity: 1 !important;     /* Ensures no transparency is hiding the text */
-    margin: 20px 0 !important;
-}
-
-/* If you want the "Welcome Back" headings to be even bolder */
+/* Toggle Panel Text */
 .toggle-panel h1 {
     color: #FFFFFF !important;
     font-weight: 800 !important;
+    font-size: 28px !important;
+    margin-bottom: 10px !important;
+}
+
+.toggle-panel p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    margin: 15px 0 25px !important;
+}
+
+/* Toggle Button - SOLID for visibility */
+.toggle-btn {
+    background-color: #fff !important;
+    color: #FF6600 !important;
+    border: none !important;
+    padding: 12px 40px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.toggle-btn:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Signup Button Enhancement */
+.btn-signup {
+    background: linear-gradient(135deg, #FF6600 0%, #FF8C00 100%) !important;
+    font-size: 15px !important;
+    padding: 16px 50px !important;
+    letter-spacing: 1px !important;
+}
+
+/* Login Page Footer */
+.login-footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+}
+
+.login-footer .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.login-footer .footer-logo {
+    height: 28px;
+    opacity: 0.9;
+}
+
+.login-footer .footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.login-footer .footer-links a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease;
+}
+
+.login-footer .footer-links a:hover {
+    color: #FF6600;
+}
+
+.login-footer .footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.login-footer .footer-social a {
+    color: #666;
+    padding: 8px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.login-footer .footer-social a:hover {
+    color: #FF6600;
+    border-color: #FF6600;
+    transform: translateY(-2px);
+}
+
+.login-footer .footer-copyright {
+    color: #555;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* ========== MOBILE LOGIN REDESIGN ========== */
+/* Premium Curved Card Design Based on Reference */
+
+@media (max-width: 767px) {
+    /* Hide desktop toggle panel on mobile */
+    .toggle-container {
+        display: none !important;
+    }
+    
+    /* Mobile Fullscreen Login - No card, fills entire viewport */
+    .mobile-login-fullscreen {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        min-height: 100vh;
+        background: #FFFFFF;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+    }
+    
+    /* Back Button for Signup */
+    .mobile-back-btn {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .mobile-back-btn:hover {
+        background: #FFFFFF;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    
+    /* Logo Image */
+    .mobile-logo-image {
+        height: 50px;
+        width: auto;
+        object-fit: contain;
+        position: relative;
+        z-index: 2;
+        filter: brightness(0) invert(1);
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Main container - hide on mobile */
+    .container {
+        width: 92% !important;
+        max-width: 400px !important;
+        min-height: auto !important;
+        height: auto !important;
+        border-radius: 24px !important;
+        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5) !important;
+        background: transparent !important;
+        position: relative !important;
+    }
+    
+    /* Form containers */
+    .form-container {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        transform: none !important;
+        background: transparent !important;
+    }
+    
+    .sign-in {
+        display: block !important;
+        z-index: 5 !important;
+    }
+    
+    .sign-up {
+        display: none !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    .container.active .sign-in {
+        display: none !important;
+    }
+    
+    .container.active .sign-up {
+        display: block !important;
+        position: relative !important;
+        opacity: 1 !important;
+        z-index: 5 !important;
+    }
+    
+    /* Mobile form styling */
+    .form-container form {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        background: transparent !important;
+        height: auto !important;
+        align-items: stretch !important;
+    }
+    
+    /* Mobile Card Image Header */
+    .mobile-card-header {
+        width: 100%;
+        height: 320px;
+        background: url('/chef-bg.jpg') center center / cover no-repeat;
+        border-radius: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 2rem 1.5rem;
+        box-sizing: border-box;
+    }
+    
+    /* Smaller header for signup */
+    .mobile-signup-header {
+        height: 220px;
+    }
+    
+    .mobile-card-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, 
+            rgba(0,0,0,0.15) 0%, 
+            rgba(0,0,0,0.25) 50%,
+            rgba(0,0,0,0.5) 100%);
+        border-radius: 0;
+    }
+    
+    .mobile-logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        font-style: italic;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    .mobile-welcome-text {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: #FFFFFF;
+        line-height: 1.15;
+        position: relative;
+        z-index: 2;
+        margin-top: auto;
+        margin-bottom: 2.5rem;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    
+    /* Curved Separator - The Wave */
+    .mobile-curve-separator {
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 60px;
+        z-index: 3;
+    }
+    
+    .mobile-curve-separator svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    
+    /* White Form Section */
+    .mobile-form-section {
+        background: #FFFFFF;
+        padding: 2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        flex: 1;
+    }
+    
+    /* Input Fields - White with grey underline style */
+    .mobile-input-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #E0E0E0;
+    }
+    
+    .mobile-input-icon {
+        color: #FF6600;
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+    }
+    
+    .mobile-input-group input {
+        flex: 1;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 1rem !important;
+        color: #333 !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    
+    .mobile-input-group input::placeholder {
+        color: #888 !important;
+        font-weight: 400;
+    }
+    
+    /* Primary CTA Button - Orange Pill */
+    .mobile-cta-button {
+        width: 100%;
+        padding: 16px 24px;
+        background: linear-gradient(135deg, #FF6600 0%, #FF8C00 100%);
+        border: none;
+        border-radius: 50px;
+        color: #FFFFFF;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(255, 102, 0, 0.35);
+    }
+    
+    .mobile-cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 102, 0, 0.45);
+    }
+    
+    .mobile-cta-button:active {
+        transform: scale(0.98);
+    }
+    
+    .mobile-cta-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    /* Forgot Password Link */
+    .mobile-forgot-link {
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+        text-decoration: none;
+        margin-top: 0.5rem;
+        transition: color 0.2s;
+    }
+    
+    .mobile-forgot-link:hover {
+        color: #FF6600;
+    }
+    
+    /* Toggle Text - Create Account / Sign In */
+    .mobile-toggle-text {
+        text-align: center;
+        color: #888;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+    
+    .mobile-toggle-text a {
+        color: #FF6600;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    /* Mobile Fullscreen Footer */
+    .mobile-fullscreen-footer {
+        background: #1a1a1a;
+        padding: 1.25rem 1.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: auto;
+    }
+    
+    .mobile-footer-row {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mobile-footer-row a {
+        color: #999;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .mobile-footer-row a:hover {
+        color: #FF6600;
+    }
+    
+    .mobile-footer-copyright {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #666;
+    }
+    
+    /* Hide default desktop elements on mobile */
+    .sign-in .title,
+    .sign-up .title,
+    .sign-in form > input,
+    .sign-up form > input,
+    .sign-in .forgot,
+    .sign-up .terms-checkbox,
+    .sign-in .btn-main,
+    .sign-up .btn-main,
+    .sign-up .btn-signup {
+        display: none !important;
+    }
+    
+    /* Hide the default footer on mobile */
+    .login-footer {
+        display: none !important;
+    }
 }
