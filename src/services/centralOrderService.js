@@ -12,6 +12,7 @@ const centralOrderClient = axios.create({
 
 /**
  * Fetch all active orders (pending, preparing, ready for pickup)
+ * Client-side filtering by restaurant name is done in Dashboard.jsx
  * @returns {Promise<Array>} - List of active orders
  */
 export const fetchActiveOrders = async () => {

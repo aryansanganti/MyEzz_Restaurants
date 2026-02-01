@@ -132,6 +132,95 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// Restaurant Signup
+app.post('/api/auth/signup', async (req, res) => {
+    try {
+        const { restaurantName, ownerName, mobile, email, password, city, businessType } = req.body;
+
+        // Validate required fields
+        if (!restaurantName || !ownerName || !mobile || !email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'All fields are required' 
+            });
+        }
+
+        if (useMockData) {
+            return res.status(503).json({ 
+                success: false, 
+                error: 'Signup requires Supabase connection' 
+            });
+        }
+
+        // Check if username/email already exists
+        const { data: existingUser } = await supabase
+            .from('restaurant_auth')
+            .select('id')
+            .eq('username', email.toLowerCase().trim())
+            .single();
+
+        if (existingUser) {
+            return res.status(409).json({ 
+                success: false, 
+                error: 'Email already registered' 
+            });
+        }
+
+        // 1. Create restaurant entry (only using columns that exist in schema)
+        const { data: restaurant, error: restaurantError } = await supabase
+            .from('restaurants')
+            .insert({
+                name: restaurantName
+            })
+            .select()
+            .single();
+
+        if (restaurantError) {
+            console.error('Restaurant creation error:', restaurantError);
+            return res.status(500).json({ 
+                success: false, 
+                error: 'Failed to create restaurant profile' 
+            });
+        }
+
+        // 2. Hash password and create auth credentials
+        const passwordHash = await bcrypt.hash(password, 10);
+        
+        const { error: authError } = await supabase
+            .from('restaurant_auth')
+            .insert({
+                restaurant_id: restaurant.id,
+                username: email.toLowerCase().trim(),
+                password_hash: passwordHash
+            });
+
+        if (authError) {
+            console.error('Auth creation error:', authError);
+            // Rollback: delete the restaurant we just created
+            await supabase.from('restaurants').delete().eq('id', restaurant.id);
+            return res.status(500).json({ 
+                success: false, 
+                error: 'Failed to create authentication' 
+            });
+        }
+
+        console.log(`✅ Signup successful: ${restaurantName} (ID: ${restaurant.id})`);
+
+        res.json({
+            success: true,
+            data: {
+                restaurantId: restaurant.id,
+                restaurantName: restaurant.name,
+                username: email.toLowerCase().trim()
+            }
+        });
+
+    } catch (error) {
+        console.error('Signup error:', error);
+        res.status(500).json({ success: false, error: 'Signup failed' });
+    }
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
     res.json({

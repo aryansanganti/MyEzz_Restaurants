@@ -57,6 +57,10 @@ function Dashboard() {
 
   // Fetch orders from Central Backend
   useEffect(() => {
+    // Get restaurant info from session
+    const session = JSON.parse(localStorage.getItem('myezz_session') || '{}');
+    const restaurantName = session.restaurantName; // Customer app sends restaurant name as restaurant_id
+    
     const loadOrders = async (isBackground = false) => {
       // Only show full loading spinner on first load, not background polls
       if (!isBackground) {
@@ -65,11 +69,26 @@ function Dashboard() {
       setError(null);
 
       try {
-        // Fetch all active orders from Central Backend
+        // Fetch all active orders (filtering will be done client-side)
         const data = await fetchActiveOrders();
         
+        // Filter orders for THIS restaurant only (by name since Customer app uses name)
+        let ordersForThisRestaurant = data;
+        if (restaurantName) {
+          ordersForThisRestaurant = data.filter(order => 
+            order.restaurant_id?.toLowerCase().includes(restaurantName.toLowerCase())
+          );
+        }
+        
+        // Filter out orders that are in rider-managed statuses
+        // Once handed to rider, restaurant doesn't need to see them anymore
+        const restaurantRelevantOrders = ordersForThisRestaurant.filter(order => {
+          const riderManagedStatuses = ['pickup_completed', 'delivery_started', 'out_for_delivery', 'delivered'];
+          return !riderManagedStatuses.includes(order.status);
+        });
+        
         // Transform backend data to match frontend format
-        const transformedOrders = data.map(order => ({
+        const transformedOrders = restaurantRelevantOrders.map(order => ({
           id: order._id,
           customerName: order.customer_id,
           items: order.items.map(item => ({
@@ -105,18 +124,15 @@ function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  // Map backend status to frontend status
+  // Map backend status to frontend status (for Restaurant view only)
   function mapBackendStatus(backendStatus) {
     const statusMap = {
       'pending': 'new',
       'preparing': 'preparing',
       'ready': 'ready',
       'accepted': 'new',  // Rider accepted, but Restaurant still needs to prepare
-      'pickup_completed': 'ready',
-      'delivery_started': 'ready',
-      'out_for_delivery': 'ready',
-      'delivered': 'completed',
       'cancelled': 'rejected'
+      // Note: pickup_completed, delivery_started, delivered are filtered out before this function
     };
     return statusMap[backendStatus] || 'new';
   }
