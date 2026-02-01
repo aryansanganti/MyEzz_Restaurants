@@ -119,10 +119,39 @@ export default function RestaurantLogin() {
     }
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    navigate('/1/orders');
+    setIsLoading(true);
+    setLoginError(''); // Clear any previous errors
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signupData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Signup failed');
+      }
+
+      // Save session to localStorage
+      localStorage.setItem('myezz_session', JSON.stringify({
+        restaurantId: data.data.restaurantId,
+        restaurantName: data.data.restaurantName,
+        username: data.data.username
+      }));
+
+      // Navigate to orders page
+      navigate(`/${data.data.restaurantId}/orders`);
+
+    } catch (error) {
+      setLoginError(error.message || 'Signup failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Mobile Login Layout
@@ -351,11 +380,43 @@ export default function RestaurantLogin() {
 
         {/* Sign Up Form */}
         <div className="form-container sign-up">
-          <form style={formBaseStyle} onSubmit={(e) => e.preventDefault()}>
+          <form style={formBaseStyle} onSubmit={handleSignUp}>
             <h1 className="title">Create Account</h1>
-            <input type="text" placeholder="Restaurant Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input 
+              type="text" 
+              placeholder="Restaurant Name" 
+              value={signupData.restaurantName}
+              onChange={(e) => setSignupData({...signupData, restaurantName: e.target.value})}
+              required
+            />
+            <input 
+              type="text" 
+              placeholder="Owner Name" 
+              value={signupData.ownerName}
+              onChange={(e) => setSignupData({...signupData, ownerName: e.target.value})}
+              required
+            />
+            <input 
+              type="tel" 
+              placeholder="Mobile Number" 
+              value={signupData.mobile}
+              onChange={(e) => setSignupData({...signupData, mobile: e.target.value})}
+              required
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              value={signupData.email}
+              onChange={(e) => setSignupData({...signupData, email: e.target.value})}
+              required
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={signupData.password}
+              onChange={(e) => setSignupData({...signupData, password: e.target.value})}
+              required
+            />
 
             <label className="terms-checkbox">
               <input
@@ -366,8 +427,14 @@ export default function RestaurantLogin() {
               <span className="terms-text">I agree to the Terms and Policies</span>
             </label>
 
-            <button type="submit" className="btn-main btn-signup" disabled={!agreedToTerms}>
-              Get Started
+            {loginError && (
+              <div style={{ color: '#ef4444', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                {loginError}
+              </div>
+            )}
+
+            <button type="submit" className="btn-main btn-signup" disabled={!agreedToTerms || isLoading}>
+              {isLoading ? <Loader2 size={18} className="spin-animation" /> : 'Get Started'}
             </button>
           </form>
         </div>
