@@ -28,3 +28,5 @@ kiro/
 # Sensitive credentials (NEVER COMMIT)
 restaurant_credentials.json
 backend/.env
+
+.env
